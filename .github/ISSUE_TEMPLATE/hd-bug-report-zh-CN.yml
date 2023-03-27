@@ -1,0 +1,35 @@
+name: 反馈后端Bug
+description: 使用某功能时提示带"-"号的数字，例如：-1000等，您可以发起这条issue。
+title: "[HD] 描述问题的标题"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 欢迎你的参与
+        Issue 列表接受 bug 报告或是新功能请求。
+
+        在发布一个 Issue 前，请确保：
+        - 在 [更新日志] 和 [Issue列表] 中搜索过你的问题。（你的问题可能已有人提出，也可能已在最新版本中被修正）
+        - 如果你发现一个已经关闭的旧 Issue 在最新版本中仍然存在，不要在旧 Issue 下面留言，请建一个新的 issue。
+        
+  - type: textarea
+    id: expect
+    attributes:
+      label: 问题描述
+      placeholder: 请填写
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduceSteps
+    attributes:
+      label: 重现步骤
+      description: 请清晰的描述重现该 Issue 的步骤，这能帮助我们快速定位问题。没有清晰重现步骤将不会被修复，标有 'need reproduction' 的 Issue 在 7 天内不提供相关步骤，将被关闭。
+      placeholder: 请填写
+
+  - type: textarea
+    id: remarks
+    attributes:
+      label: 补充说明
+      description: 可以是遇到这个 bug 的业务场景、上下文等信息。
+      placeholder: 请填写

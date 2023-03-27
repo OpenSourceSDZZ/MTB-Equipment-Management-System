@@ -1,0 +1,80 @@
+# force copy from tencent/tdesign
+name: Issue Add Assigness
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  mark-duplicate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wow-actions/auto-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          issuesOpened: |
+            👋 @{{ author }}，感谢给我们提出issue。
+             我们将调查后并尽快回复你。
+      - uses: Wesleyyy0808/issue-assignees@main
+        id: assignees
+        with:
+          project_name: ${{github.event.repository.name}}
+          issue_title: ${{github.event.issue.title}}
+          
+      - run: |
+          contributors=${{ steps.assignees.outputs.contributors }}
+          contributorstring=${contributors//,/ @}
+          echo "::set-output name=string::@$contributorstring"
+        id: contributors
+        
+      - name: 通知贡献者【issue】
+        if: steps.assignees.outputs.isissue == 'true'
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.TOKEN }}
+          body: |
+            ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认提议可行性。
+            确认可行后将下一步计划和可能需要的时间及项目规划回复给  @${{ github.event.issue.user.login }} 。
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
+          
+      - name: 通知贡献者【bug】
+        if: |
+          steps.assignees.outputs.isissue == 'false' &&
+          steps.assignees.outputs.needhard == 'false' &&
+          steps.assignees.outputs.notmatchpeople == 'false'
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.TOKEN }}
+          body: |
+            ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认问题。
+            确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
+
+      - name: 通知贡献者【需求】
+        if: steps.assignees.outputs.needhard == 'true'
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.TOKEN }}
+          body: |
+            ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快实现该功能。
+            最晚于3周后push develop版本至该仓库，并在PR中标记该issue。
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
+
+      - name: 未能分配人员
+        if: steps.assignees.outputs.notmatchpeople == 'true'
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.TOKEN }}
+          body: |
+            @${{ github.event.issue.user.login }}  抱歉，我们未能通过您提出的issue进行人员分配，下面由系统为您分配：
+            ♥️ 有劳  @wesleyyy0808 , @ddos-ling  尽快确认问题。
+            确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
