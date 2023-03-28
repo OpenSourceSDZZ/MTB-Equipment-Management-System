@@ -1171,22 +1171,33 @@ def json_equipment_lend():
         else:
             key_timeadd(key)
             username = login_key[key]["username"]
-        #验证是否存在用户及获取用户名并返回用户名
-        #因为user()与get_user_name()只是返回内容不同，所以可以混用
+
+        if login_key[key]["username"] != user_code and login_key[key]["admin"] != 1:
+            log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：没有权限为其他用户({user_code})借出设备({code})",username=username)
+            status = -3003
+            error = "操作失败：权限不足，你没有权限为别人借出设备"
+
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
+
         if user(user_code)[0] == "Error:查询失败":
             log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：指派了一个不存在的用户({user_code})用于借出设备({code})",username=username)
             status = -3001
             error = "找不到该用户"
             data["lenduser"] = "未知用户"
+            
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             data["lenduser"] = get_user_name(user_code)
-        #验证是否存在设备获取设备信息并返回设备信息
+
+        #fix(json_lend): 找不到设备但是仍然借出成功
         if equipment(code)[0] == "Error:查询失败" or equipment(code)[0] == "Error:找不到数据":
             log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：找不到该设备：{code}",username=username)
             status = -3002
             error = "找不到该设备"
             data["lendcode"] = code
             data["lendname"] = "未知设备"
+
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             with pymysql.connect(**mysql_config) as conn2:
                 with conn2.cursor() as cursor2:
@@ -1195,10 +1206,7 @@ def json_equipment_lend():
                     result2 = cursor2.fetchone()
                     data["lendcode"] = result2[1]
                     data["lendname"] = result2[3]
-        if login_key[key]["username"] != user_code and login_key[key]["admin"] != 1:
-            log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：没有权限为其他用户({user_code})借出设备({code})",username=username)
-            status = -3003
-            error = "操作失败：权限不足，你没有权限为别人借出设备"
+
         with pymysql.connect(**mysql_config) as conn:
             with conn.cursor() as cursor:
                 sql = 'select * from record where equipment_code = %s and user_code = %s and status = 1'
