@@ -1,0 +1,178 @@
+
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+@media screen and (max-width: 1255px) {
+    .grid-container{
+        display:none;
+    }
+    .toomin{
+      display:block;
+    }
+}
+@media screen and (min-width: 1255px) {
+    .grid-container{
+        display:block;
+    }
+    .toomin{
+      display:none;
+    }
+}
+.toomin{
+  color:#fff;
+  text-align: center;
+}
+
+.nav-brand .white,.nav-brand:hover .gray {
+    display: none;
+}
+.nav-brand .gray, .nav-brand:hover .white {
+    display: block;
+}
+
+footer.site-footer {
+    background: #272727;
+    padding: 72px 0;
+}
+
+footer.site-footer .grid-container {
+    background: #272727;
+}
+
+.grid-container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+footer.site-footer .footer-category .grid {
+    margin: 0;
+}
+
+.grid-container .grid.between {
+    justify-content: space-between;
+}
+.grid-container .grid.stretch {
+    align-items: stretch;
+}
+footer.site-footer .grid {
+    margin: 0 -7px;
+}
+.grid-container .grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+footer.site-footer .footer-category .footer-item {
+    width: 221px;
+}
+
+footer.site-footer .footer-category p.title {
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 500;
+}
+footer.site-footer .footer-category .nav-item, footer.site-footer .footer-category .subscribe p.title {
+    margin-bottom: 8px;
+}
+footer.site-footer .footer-about, footer.site-footer .footer-about .footer-nav {
+    display: flex;
+    -moz-align-items: flex-end;
+    align-items: flex-end;
+}
+footer.site-footer .footer-about {
+    border-bottom: 1px solid #6c7073;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+    margin-top: 48px;
+    padding-bottom: 16px;
+}
+
+footer.site-footer .footer-about ul.nav-right li a {
+    font-size: 12px;
+    line-height: 24px;
+    color: #9fa3a6;
+    transition: all .3s ease;
+}
+a {
+    vertical-align: baseline;
+    text-decoration: none;
+}
+
+footer.site-footer .footer-about ul.footer-social, footer.site-footer .footer-about ul.footer-social li, footer.site-footer .footer-bottom, footer.site-footer .footer-bottom .footer-legal {
+    display: flex;
+    -moz-align-items: center;
+    align-items: center;
+}
+
+footer.site-footer .footer-category .footer-column {
+    margin-bottom: 24px;
+}
+ul {
+    list-style: none;
+}
+
+footer.site-footer .footer-about ul.nav-right:hover li:hover>a,#run_copyright:hover, footer.site-footer .footer-category .nav-item a:hover {
+    color: #fff;
+}
+
+.footer-ad-desc .footer-feedback a:hover, .footer-ad-desc .footer-record a:hover, footer.site-footer .footer-about ul.nav-right:hover li>a, footer.site-footer .footer-bottom a:hover {
+    color: #919699;
+}
+footer.site-footer .footer-category .nav-item a ,#run_copyright {
+    font-size: 12px;
+    color: #9fa3a6;
+    transition: all .3s ease;
+    line-height: 24px;
+    display: inline-block;
+}
+
+a.active, a:focus, a:hover {
+    text-decoration: none;
+}
+
+footer.site-footer .footer-about ul.nav-right li {
+    display: inline-block;
+    padding: 0 12px;
+    height: 24px;
+}
+.footer-ad-desc {
+    margin-top: 8px;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.footer-ad-desc, .footer-enterprise-info {
+    color: #616466;
+    font-size: 12px;
+    display: flex;
+    -moz-align-items: center;
+    align-items: center;
+    -moz-justify-content: left;
+    justify-content: left;
+}
+.footer-ad-desc .copyright {
+    font-size: 12px;
+    color: #6c7073;
+    padding-right: 16px;
+}
+.footer-ad-desc .footer-feedback a, .footer-ad-desc .footer-record a {
+    text-decoration: none;
+    color: #616466;
+}
+.footer-ad-desc .footer-record a {
+    margin-right: 16px;
+}
+
+footer.site-footer .grid-container {
+    background: #272727;
+}
+.grid-container {
+    width: 1200px;
+    margin: 0 auto;
+}
