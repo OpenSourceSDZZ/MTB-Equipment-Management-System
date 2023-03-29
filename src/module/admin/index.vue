@@ -214,13 +214,13 @@
             <t-form ref="changepwsform" :rules="changepwsrule" :data="changepwsformdata" label-align="right"
                 :label-width="125" style="margin-top: 14px;margin-bottom: 10px;" :onValidate="change_password_main">
                 <t-form-item label="原密码" name="oldpassword">
-                    <t-input v-model="changepwsformdata.oldpassword" type="password"></t-input>
+                    <t-input ref="old_password_input" v-model="changepwsformdata.oldpassword" type="password" :onEnter="tonext_input('new_password_input')"></t-input>
                 </t-form-item>
                 <t-form-item label="新密码" name="newpassword">
-                    <t-input v-model="changepwsformdata.newpassword" type="password"></t-input>
+                    <t-input ref="new_password_input" v-model="changepwsformdata.newpassword" type="password" :onEnter="tonext_input('new2_password_input')"></t-input>
                 </t-form-item>
                 <t-form-item label="再次输入新密码" name="new2password">
-                    <t-input v-model="changepwsformdata.new2password" type="password"></t-input>
+                    <t-input ref="new2_password_input" v-model="changepwsformdata.new2password" type="password"></t-input>
                 </t-form-item>
             </t-form>
         </template>
@@ -556,7 +556,7 @@
                 <div>
                     <span>登录状态: </span>
                     <span v-if="this.getck('key') && this.getck('username') && this.getck('usercode')">
-                        {{ logstate ? (isadmin ? '已登录-管理员账户' : '已登录') : '未登录' }}
+                        {{ logstate ? (isadmin ? '已登录(管理员账户)' : '已登录') : '未登录' }}
                     </span>
                     <span style="color: var(--td-error-color-6)" v-else>伪登录{{
                         this.getQueryVariable('devmode') ==
@@ -574,7 +574,7 @@
                     <span>已开启</span>
                 </div>
                 <div>
-                    <span>管理员模式: </span>
+                    <span>超级管理模式: </span>
                     <span>{{ getQueryVariable('system_admin_mode') ? '是' : '否' }}</span>
                 </div>
             </div>
@@ -904,10 +904,16 @@ export default {
             this.$data.showchangepasswordia = true
             this.$data.firsttimelogin = true
             this.$data.change_password_dialog_cancelbtn_show = null
+            this.$refs.old_password.focus()
         }
     },
 
     methods: {
+        //回车聚焦下一个输入框
+        tonext_input(e){
+            this.$refs[e].focus()
+        },
+        //120秒无操作退登
         ifnotclick_logout() {
             //开始120秒倒计时
             var that = this
@@ -1119,6 +1125,7 @@ export default {
         },
         //更改密码的一系列操作
         showchangepwsdia() {
+            this.$refs.old_password.focus()
             this.$data.showchangepasswordia = true;
             this.showandclose()
         },

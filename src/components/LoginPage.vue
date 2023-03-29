@@ -61,10 +61,10 @@
     </div>
 
     <!--提示-->
-<!-- <t-dialog v-model:visible="showtestdialog" theme="info" header="提示"
-        body="即日起，开启设备管理系统2.0版本的测试，使用方法大同小异。如果遇到问题，请咨询两位技术人才。感谢您的支持！" :closeBtn="false" :cancelBtn="null"
-        :closeOnOverlayClick="false" :closeOnEscKeydown="false" confirmBtn="我积极参与测试"
-                :onConfirm="clickasdasdasdasdasasdczxcvrw"></t-dialog> -->
+<t-dialog v-model:visible="showtestdialog" theme="info" header="温馨提示"
+        body="由于部门名单更新，用户code有所变更，请查看新版人员表格确定自己的用户code。(默认密码：123456)" :closeBtn="false" :cancelBtn="关闭"
+        :closeOnOverlayClick="false" :closeOnEscKeydown="false" confirmBtn="我已知晓"
+                :onConfirm="clickasdasdasdasdasasdczxcvrw"></t-dialog>
 </template>
 
 <script setup>
@@ -93,7 +93,7 @@ import lh from '../assets/login-header.png'
 // import { Unlock, User } from "@element-plus/icons-vue";
 import { MessagePlugin } from 'tdesign-vue-next';
 //let userid = navigator.userAgent
-//const 打印 = console.log
+
 export default {
     name: "LoginPage",
     setup() {
@@ -119,15 +119,13 @@ export default {
             disabled: false,
             timer: null,
             skiperror: false,
-            // alert_title: 'None',
-            // alert_desc: 'None',
-            // alert_show: false,
-            //
+
             showtestdialog: true,
         }
 
     },
     mounted() {
+        //获取焦点
         this.$refs['fromusername'].focus()
         console.log('【登录页加载】')
         var that = this;
@@ -183,14 +181,9 @@ export default {
 
     },
     methods: {
+        //去除用户名输入框空格
         quchukongge() {
-            var id = this.$data.formData.username
-            id = id.replace(/\s*/g, "")
-            if (id != this.$data.formData.username) {
-                console.log("你在干嘛？？？？？")
-            }
             this.$data.formData.username = id.replace(/\s*/g, "")
-
         },
         clickasdasdasdasdasasdczxcvrw() {
             this.$data.showtestdialog = false
