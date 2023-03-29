@@ -20,7 +20,6 @@ jobs:
         with:
           project_name: ${{github.event.repository.name}}
           issue_title: ${{github.event.issue.title}}
-          
       - run: |
           contributors=${{ steps.assignees.outputs.contributors }}
           contributorstring=${contributors//,/ @}
@@ -29,24 +28,21 @@ jobs:
         
       - name: 通知贡献者【issue】
         if: steps.assignees.outputs.isissue == 'true'
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          token: ${{ secrets.TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认提议可行性。
             确认可行后将下一步计划和可能需要的时间及项目规划回复给  @${{ github.event.issue.user.login }} 。
-            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
-          number: ${{ github.event.issue.number }}
-          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
           
       - name: 通知贡献者【bug】
         if: |
           steps.assignees.outputs.isissue == 'false' &&
           steps.assignees.outputs.needhard == 'false' &&
           steps.assignees.outputs.notmatchpeople == 'false'
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          token: ${{ secrets.TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认问题。
             确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
@@ -56,9 +52,9 @@ jobs:
 
       - name: 通知贡献者【需求】
         if: steps.assignees.outputs.needhard == 'true'
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          token: ${{ secrets.TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快实现该功能。
             最晚于3周后push develop版本至该仓库，并在PR中标记该issue。
@@ -68,9 +64,9 @@ jobs:
 
       - name: 未能分配人员
         if: steps.assignees.outputs.notmatchpeople == 'true'
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          token: ${{ secrets.TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             @${{ github.event.issue.user.login }}  抱歉，我们未能通过您提出的issue进行人员分配，下面由系统为您分配：
             ♥️ 有劳  @wesleyyy0808 , @ddos-ling  尽快确认问题。
