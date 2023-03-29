@@ -46,9 +46,6 @@ jobs:
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认问题。
             确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
-            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
-          number: ${{ github.event.issue.number }}
-          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
 
       - name: 通知贡献者【需求】
         if: steps.assignees.outputs.needhard == 'true'
@@ -58,9 +55,6 @@ jobs:
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快实现该功能。
             最晚于3周后push develop版本至该仓库，并在PR中标记该issue。
-            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
-          number: ${{ github.event.issue.number }}
-          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
 
       - name: 未能分配人员
         if: steps.assignees.outputs.notmatchpeople == 'true'
@@ -71,6 +65,3 @@ jobs:
             @${{ github.event.issue.user.login }}  抱歉，我们未能通过您提出的issue进行人员分配，下面由系统为您分配：
             ♥️ 有劳  @wesleyyy0808 , @ddos-ling  尽快确认问题。
             确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
-            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
-          number: ${{ github.event.issue.number }}
-          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
