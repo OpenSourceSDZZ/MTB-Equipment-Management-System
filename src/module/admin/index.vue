@@ -831,8 +831,9 @@ export default {
                                     if (result.status == -1003) {
                                         //key超时
                                         MessagePlugin.error({ content: "登录超时，请重新登陆。", duration: 9000 })
-                                        document.cookie = "login=false;path=/;expires=86400";
-                                        this.$data.loginpage_show = true
+                                        setTimeout(() => {
+                                            this.logout()
+                                        }, 2000);
                                         //自杀
                                         clearInterval(this.check_keyareok)
                                     }
@@ -840,8 +841,9 @@ export default {
                                         //请求错误，缺少参数
                                         this.$data.showmsg = true
                                         MessagePlugin.error({ content: '验证登录态失败，请联系管理员。。', duration: 9000 })
-                                        document.cookie = "login=false;path=/;expires=86400";
-                                        this.$data.loginpage_show = true
+                                        setTimeout(() => {
+                                            this.logout()
+                                        }, 2000);
                                     }
                                 }
                             }
@@ -925,7 +927,7 @@ export default {
                     this.showMessage('warning', 0, '超过 120 秒没有操作，已自动退出登录')
                     this.$data.inclick = false
                     this.$data.chaoshibiaojidengchu = true
-                    this.logout(true)
+                    this.logout()
                     console.log('%c【Logout】【Timeout】', "background: #fa5151;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
                 }
             }, 120000);
