@@ -881,6 +881,13 @@ export default {
     background: var(--td-bg-color-container);
 }
 
+.t-tabs__operations--left{
+    display: none !important;
+}
+.t-tabs__operations--right{
+    display: none !important;
+}
+
 .t-card__body {
     padding-top: 0px !important;
 }
