@@ -1177,27 +1177,20 @@ def json_equipment_lend():
             status = -3003
             error = "操作失败：权限不足，你没有权限为别人借出设备"
 
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-
         if user(user_code)[0] == "Error:查询失败":
             log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：指派了一个不存在的用户({user_code})用于借出设备({code})",username=username)
             status = -3001
             error = "找不到该用户"
             data["lenduser"] = "未知用户"
-            
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             data["lenduser"] = get_user_name(user_code)
 
-        #fix(json_lend): 找不到设备但是仍然借出成功
         if equipment(code)[0] == "Error:查询失败" or equipment(code)[0] == "Error:找不到数据":
             log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：找不到该设备：{code}",username=username)
             status = -3002
             error = "找不到该设备"
             data["lendcode"] = code
             data["lendname"] = "未知设备"
-
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             with pymysql.connect(**mysql_config) as conn2:
                 with conn2.cursor() as cursor2:
@@ -1206,7 +1199,10 @@ def json_equipment_lend():
                     result2 = cursor2.fetchone()
                     data["lendcode"] = result2[1]
                     data["lendname"] = result2[3]
-
+        #update(json_lend): 阻止的方式
+        if status < 0:
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
+        
         with pymysql.connect(**mysql_config) as conn:
             with conn.cursor() as cursor:
                 sql = 'select * from record where equipment_code = %s and user_code = %s and status = 1'
