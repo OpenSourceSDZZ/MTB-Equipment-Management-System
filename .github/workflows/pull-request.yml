@@ -1,0 +1,20 @@
+# 文件名建议统一为 pull-request.yml 
+# 应用 test-build.yml 的 demo
+
+name: MAIN_PULL_REQUEST
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: maintain-comment
+        uses: actions-cool/maintain-one-comment@v3
+        with:
+          token: ${{ secrets.TOKEN }}
+          body: |
+            <a href="${{steps.deploy.outputs.url}}"><img height="96" alt="完成" src="https://user-images.githubusercontent.com/15634204/150816437-9f5bb788-cd67-4cbc-9897-b82d74e9aa65.png" /></a>
+          body-include: '<!-- Created by actions-cool/maintain-one-comment -->'
