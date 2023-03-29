@@ -22,7 +22,7 @@ jobs:
       - uses: 94dreamer/auto-release@develop
         id: changelog
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Add comment
         uses: peter-evans/create-or-update-comment@v1
         with:
@@ -40,7 +40,7 @@ jobs:
       - id: comment
         shell: bash
         run: |
-          result=$(curl ${{github.event.issue.pull_request.url}} -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}")
+          result=$(curl ${{github.event.issue.pull_request.url}} -H "Authorization: token ${{ secrets.TOKEN }}")
           headrefreg='"ref": "(release/[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2})",'
           if [[ $result =~ $headrefreg ]]
           then
