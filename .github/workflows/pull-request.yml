@@ -11,9 +11,17 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - name: maintain-comment
-        uses: actions-cool/maintain-one-comment@v3
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc
         with:
-          token: ${{ secrets.TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+      - name: maintain-comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
-            <a href="${{steps.deploy.outputs.url}}"><img height="96" alt="完成" src="https://user-images.githubusercontent.com/15634204/150816437-9f5bb788-cd67-4cbc-9897-b82d74e9aa65.png" /></a>
+            <a href="${{steps.deploy.outputs.url}}"><img height="96" alt="完成" src="https://camo.githubusercontent.com/264340ea50dbcb7ad5e3c051330a30c70aca3a23d91526f299ce1b557b154991/687474703a2f2f707265766965772e6769746875622e7765736c657979792e746f702f7072737563636573732e706e67" /></a>
+          edit-mode: replace
