@@ -1182,6 +1182,8 @@ def json_equipment_lend():
             status = -3001
             error = "找不到该用户"
             data["lenduser"] = "未知用户"
+            
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             data["lenduser"] = get_user_name(user_code)
 
@@ -1191,6 +1193,8 @@ def json_equipment_lend():
             error = "找不到该设备"
             data["lendcode"] = code
             data["lendname"] = "未知设备"
+
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             with pymysql.connect(**mysql_config) as conn2:
                 with conn2.cursor() as cursor2:
