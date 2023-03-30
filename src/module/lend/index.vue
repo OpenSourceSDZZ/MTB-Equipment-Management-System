@@ -11,16 +11,6 @@
         <div style="display: flex;justify-content: center;">
             <t-tabs :value="tabsvalue" :theme="theme" @change="handlerChange"
                 style="width: 98%;padding: 15px;padding-top: 0px;min-height: 310px;">
-                <!-- <t-tab-panel value="topic">
-                    <template #label> <t-icon name="books" class="tabs-icon-margin" />须知</template>
-                    <div id="topic">
-                        <h1>点击上方选项卡即可 借出/归还</h1>
-                        <h2>该系统正处于测试阶段，出现问题均属正常情况。</h2>
-                        <h2>出现无法借出、无法归还的情况请切换至旧版客户端进行操作</h2>
-                        <h2>任何问题请联系管理员</h2>
-                        <span style="color:var(--td-text-color-placeholder);">Version: 2.1.230305[20230305]</span>
-                    </div>
-                </t-tab-panel> -->
                 <t-tab-panel value="first">
                     <template #label> <span class="lendtap"><t-icon name="logout"
                                 class="tabs-icon-margin" />借出</span></template>
@@ -34,11 +24,9 @@
                                         <span v-else>{{ eqinfo }}</span>
                                     </t-card>
                                 </div>
-                                <!---->
                                 <!-- <div>
                                   <t-checkbox v-model="checkboxvalue" :onChange="changecheckbox">批量模式</t-checkbox>
-                              </div> -->
-                                <!---->
+                                </div> -->
                                 <div style="display: flex;align-items: center;margin: 5px 0px 12px;"
                                     class="helpotheruserlend_big">
                                     <t-checkbox class="helpotheruserlend_box" v-model="checkboxuservalue">帮借/转借</t-checkbox>
@@ -102,7 +90,6 @@
                         <!-- <div style="margin-top: 16px;">
                             <t-button block @click="lend">借出</t-button>
                         </div> -->
-
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="second">
@@ -153,7 +140,6 @@
                                 </t-card>
                             </div>
                         </div>
-
                     </div>
                 </t-tab-panel>
             </t-tabs>
@@ -184,14 +170,12 @@
     </t-dialog>
     <!---->
     <t-loading :loading="loading" text="加载中..." fullscreen />
-    <!--音频-->
-    <audio ref="lendmedia" :src="lendm" hidden controls="lend"></audio>
-    <audio ref="returnmedia" :src="returnm" hidden controls="return"></audio>
-
-
     <!--引导使用-->
     <t-guide v-model="current" :steps="steps" @change="handleChange" @finish="handleFinish" :onSkip="guide_skip"
         :finishButtonProps="{ content: Math.floor(Math.random() * 2) == 1 ? '我已经知道怎么使用这些功能，且保证正确、规范的使用这些功能！' : '哇嘎哒！！', theme: 'primary' }" />
+    <!--音频-->
+    <audio ref="lendmedia" :src="lendm" hidden controls="lend"></audio>
+    <audio ref="returnmedia" :src="returnm" hidden controls="return"></audio>
 </template>
 
 <script setup>
