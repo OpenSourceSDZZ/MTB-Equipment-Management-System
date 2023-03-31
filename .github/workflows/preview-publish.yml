@@ -13,16 +13,7 @@ jobs:
   UPDATE_OFFICIAL_WEBSITE:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: main
-          fetch-depth: 0
-          token: ${{ secrets.TOKEN }}
-          submodules: recursive
-      - name: update official website
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git fetch origin
-          git add .
-          git push origin main
+      - uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
