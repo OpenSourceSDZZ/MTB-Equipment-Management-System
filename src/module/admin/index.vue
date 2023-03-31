@@ -20,11 +20,11 @@
             </a>
             <a href="javascript:void(1);" title="重载页面" @click="pagereload()" class="mar8 guide_refresh"
                 style="display: flex;">
-                <t-icon class="t-menu__operations-icon" name="refresh" />
+                <t-icon class="t-menu__operations-icon" name="refresh" style="width: 48px;height: 48px;" />
             </a>
             <a href="javascript:void(2);" v-if="!loginpage_show" @click="showandclose" :showandclose="showandclose"
-                class="mar8 guide_more" title="More">
-                <t-icon class="t-menu__operations-icon" name="ellipsis" />
+                style="display: flex;" class="mar8 guide_more" title="More">
+                <t-icon class="t-menu__operations-icon" name="ellipsis" style="width: 48px;height: 48px;" />
             </a>
         </template>
     </t-head-menu>
@@ -201,8 +201,8 @@
     <t-dialog v-model:visible="visible" header="提示" theme="warning" body="将要退出登陆" :closeBtn="false" :on-confirm="logout" />
 
     <!--改密码-->
-    <t-dialog v-model:visible="showchangepasswordia" :closeBtn="false" :cancelBtn="change_password_dialog_cancelbtn_show" :width="780" :closeOnOverlayClick="false"
-        :closeOnEscKeydown="false" confirmBtn="确认修改" :onConfirm="changepws">
+    <t-dialog v-model:visible="showchangepasswordia" :closeBtn="false" :cancelBtn="change_password_dialog_cancelbtn_show"
+        :width="780" :closeOnOverlayClick="false" :closeOnEscKeydown="false" confirmBtn="确认修改" :onConfirm="changepws">
         <template #header>
             <div>
                 <t-icon name="edit" color="var(--td-brand-color-7)" size="25px" />
@@ -214,10 +214,12 @@
             <t-form ref="changepwsform" :rules="changepwsrule" :data="changepwsformdata" label-align="right"
                 :label-width="125" style="margin-top: 14px;margin-bottom: 10px;" :onValidate="change_password_main">
                 <t-form-item label="原密码" name="oldpassword">
-                    <t-input ref="old_password_input" v-model="changepwsformdata.oldpassword" type="password" :onEnter="tonext_input('new_password_input')"></t-input>
+                    <t-input ref="old_password_input" v-model="changepwsformdata.oldpassword" type="password"
+                        :onEnter="tonew_input"></t-input>
                 </t-form-item>
                 <t-form-item label="新密码" name="newpassword">
-                    <t-input ref="new_password_input" v-model="changepwsformdata.newpassword" type="password" :onEnter="tonext_input('new2_password_input')"></t-input>
+                    <t-input ref="new_password_input" v-model="changepwsformdata.newpassword" type="password"
+                        :onEnter="tonew2_input"></t-input>
                 </t-form-item>
                 <t-form-item label="再次输入新密码" name="new2password">
                     <t-input ref="new2_password_input" v-model="changepwsformdata.new2password" type="password"></t-input>
@@ -640,7 +642,7 @@ export default {
     },
     data() {
         return {
-            version: '2.1.4 RC',
+            version: '2.1.6 RC',
             loginpage_show: true,
             userpage_show: false,
             timer: null,
@@ -686,7 +688,7 @@ export default {
             handlechange: false,
             //第一次登录
             firsttimelogin: false,
-            change_password_dialog_cancelbtn_show:true,
+            change_password_dialog_cancelbtn_show: "关闭",
         }
     },
     setup() {
@@ -743,6 +745,7 @@ export default {
         //CHANGELOG
         var changelog = this.getQueryVariable('changelog')
         var changelog2 = this.getQueryVariable('update')
+
         //Console Start
         console.log('有关详细信息，请参阅 https://www.chromestatus.com/feature/5629709824032768。')
         console.group('%c系统状态：', "background: #07c160;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
@@ -766,14 +769,16 @@ export default {
                     clearInterval(this.timer);
                     that.$data.loginpage_show = false
                     that.$data.userpage_show = true
-                    document.cookie = "ban=false;path=/;expires=0";
+                    var exdate = new Date();
+                    exdate.setDate(exdate.getDate() - 30);
+                    document.cookie = "ban=false;path=/;expires=" + exdate.toGMTString();
                 }
                 else {
                     that.$data.loginpage_show = true
                 }
             }, 100)
         };
-        //开发者模式下跳过超时检测
+        //开发者模式下跳过超时操作检测
         if (dev == 'yes') {
             console.log('%c【Develop MODE】【Skip Login Timeout Check】：开发模式已启用，关闭超时检测', "background: #fa5151;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
         }
@@ -795,6 +800,7 @@ export default {
         if (loadtype == 'dashboard') {
             this.changeminimenuchoose('l7')
         }
+
         //验证登录态
         if (this.getck('login') == 'true') {
             this.$data.logstate = true
@@ -865,6 +871,7 @@ export default {
             //     this.$data.issuepagedata = aaa
             //     this.changeminimenuchoose('l6')
             // }
+
             //lend页
             if (loadtype == 'lend') {
                 this.changeminimenuchoose('l2')
@@ -877,9 +884,11 @@ export default {
             this.$data.header_title = '顺德中专团委学生会媒体部 系统登录'
             if (loadtype == 'lend') {
                 MessagePlugin.error('【加载错误】请登录后再试一次！', 5000)
+                setTimeout(() => {
+                    this.logout()
+                }, 7000);
             }
         }
-
 
         //Theme自动切换
         setInterval(() => {
@@ -899,20 +908,27 @@ export default {
             }
         }, 1000);
 
+        this.$data.change_password_dialog_cancelbtn_show = "关闭"
         //登陆改密码
         if (this.getck('login') == 'true' && this.getck("need_change_password") == "need") {
             this.$data.showchangepasswordia = true
             this.$data.firsttimelogin = true
             this.$data.change_password_dialog_cancelbtn_show = null
-            this.$refs.old_password.focus()
+            setTimeout(() => {
+                this.$refs['old_password_input'].focus()
+            }, 500);
         }
     },
 
     methods: {
         //回车聚焦下一个输入框
-        tonext_input(e){
-            this.$refs[e].focus()
+        tonew_input() {
+            this.$refs['new_password_input'].focus()
         },
+        tonew2_input() {
+            this.$refs['new2_password_input'].focus()
+        },
+
         //120秒无操作退登
         ifnotclick_logout() {
             //开始120秒倒计时
@@ -933,19 +949,25 @@ export default {
                     this.showMessage('warning', 0, '超过 120 秒没有操作，已自动退出登录')
                     this.$data.inclick = false
                     this.$data.chaoshibiaojidengchu = true
-                    this.logout()
+                    setTimeout(() => {
+                        this.logout()
+                    }, 2000);
                     console.log('%c【Logout】【Timeout】', "background: #fa5151;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
                 }
             }, 120000);
         },
 
+        //重载页面
         pagereload() {
             location.reload()
         },
+
+        //更多信息
         showinfodialog() {
             this.$data.showpageinfodialog = true;
             this.showandclose()
         },
+
         //获取单个cookies
         getck(sname) {
             var acookie = document.cookie.split("; ");
@@ -1092,6 +1114,10 @@ export default {
         //退登操作
         logout(refload_) {
             var key = this.getck('key')
+            //设置过期时间
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() - 30);
+            //start
             const xhr = new XMLHttpRequest()
             xhr.open('post', 'http://10.3.146.103/json/logout', true)
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -1101,19 +1127,21 @@ export default {
                 console.log(result)
             }
             xhr.send('key=' + key)
-            document.cookie = "login=false;path=/;expires=86400";
-            document.cookie = "key=;path=/;expires=86400"
-            document.cookie = "username=;path=/;expires=86400"
-            document.cookie = "usercode=;path=/;expires=86400"
-            document.cookie = "userclass=;path=/;expires=86400"
-            document.cookie = "logintime=;path=/;expires=86400"
-            document.cookie = "keytimeout=;path=/;expires=86400"
-            document.cookie = "admin=;path=/;expires=86400"
+            //去除cookie
+            document.cookie = "login=false;path=/;expires=86400" + exdate.toGMTString()
+            document.cookie = "key=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "username=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "usercode=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "userclass=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "logintime=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "keytimeout=;path=/;expires=" + exdate.toGMTString()
+            document.cookie = "admin=;path=/;expires=" + exdate.toGMTString()
+            //
+            console.log('%c【Logout】【Click】', "background: #fa5151;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
             if (refload_ == true) {
                 console.log('已阻止登出刷新')
             }
             else {
-                console.log('%c【Logout】【Click】', "background: #fa5151;color: #fff;border-radius: 3px;padding: 5px;font-family:'PingFang SC, Microsoft YaHei, Arial Regular';")
                 //登出刷新
                 location.reload()
             }
@@ -1125,9 +1153,11 @@ export default {
         },
         //更改密码的一系列操作
         showchangepwsdia() {
-            this.$refs.old_password.focus()
             this.$data.showchangepasswordia = true;
             this.showandclose()
+            setTimeout(() => {
+                this.$refs['old_password_input'].focus()
+            }, 500);
         },
         //验证密码自定义操作
         passwordValidator(val) {
@@ -1179,7 +1209,7 @@ export default {
                         if (this.$data.firsttimelogin == true) {
                             this.$data.firsttimelogin = false
                             document.cookie = "need_change_password=dontneed;path=/;expires=86400"
-                            this.$data.change_password_dialog_cancelbtn_show = true
+                            this.$data.change_password_dialog_cancelbtn_show = "关闭"
                             setTimeout(() => {
                                 location.reload()
                             }, 500);
@@ -1382,10 +1412,10 @@ body {
     background-color: var(--td-brand-color-7) !important;
 }
 
-.t-menu__operations-icon {
+/* .t-menu__operations-icon {
     width: 30px !important;
     height: 30px !important;
-}
+} */
 
 .son_menu {
     z-index: 1 !important;

@@ -232,8 +232,8 @@ const steps = [
     {
         element: '.returntap',
         title: '新手引导',
-        body: '点击这里显示借出界面',
-        placement: 'bottom',
+        body: '点击这里显示归还界面',
+        placement: 'bottom-left',
     },
     {
         element: '.helpotheruserlend_big',

@@ -4,7 +4,7 @@
 <!-- <div style="width: 600px;position: fixed;left: 0;right: 0;margin: 0 auto;margin-top: 40px;">
         <el-alert show-icon='true' type="error" :title="alert_title" :description="alert_desc" v-show="alert_show">
         </el-alert>
-                    </div> -->
+                        </div> -->
     <div id="bubble" class="bubble" :style="{ height: windowHeight + 'px', width: windowWidth + 'px' }"
         style="max-width:100%;"></div>
     <div>
@@ -28,7 +28,7 @@
                                         <desktop-icon />
                                     </template>
                                 </t-input>
-                                            </t-form-item> -->
+                                                </t-form-item> -->
 
                             <t-form-item name="username">
                                 <t-input id="button10000" v-model="formData.username" clearable placeholder="请输入账户名"
@@ -61,10 +61,10 @@
     </div>
 
     <!--提示-->
-<t-dialog v-model:visible="showtestdialog" theme="info" header="温馨提示"
-        body="由于部门名单更新，用户code有所变更，请查看新版人员表格确定自己的用户code。(默认密码：123456)" :closeBtn="false" :cancelBtn="关闭"
+    <t-dialog v-model:visible="showtestdialog" theme="info" header="温馨提示"
+        body="由于部门名单更新，用户code有所变更，请查看新版人员表格确定自己的用户code。(默认密码：123456)" :closeBtn="false" cancelBtn="关闭"
         :closeOnOverlayClick="false" :closeOnEscKeydown="false" confirmBtn="我已知晓"
-                :onConfirm="clickasdasdasdasdasasdczxcvrw"></t-dialog>
+        :onConfirm="clickasdasdasdasdasasdczxcvrw"></t-dialog>
 </template>
 
 <script setup>
@@ -154,13 +154,12 @@ export default {
             this.$data.skiperror = true
         }
         //检测ban
-        if (this.getck('ban') == 'true' && !this.skiperror) {
+        if (this.getck('ban') == 'true' && !this.skiperror && this.getck('LOGINERRORTIMEOUT') > this.gettimestamp('s')) {
             this.bantime = 120;
             //消息自动更新 ↓
             var content = () => { return ("您已输入错误超过 5 次，请" + this.bantime + "秒后再重试。(刷新会导致状态重载)") }
             this.showMessage('error', 0, content)
             this.disabled = true;
-
             //更新subtime
             this.timer = setInterval(() => {
                 var that = this//代理
@@ -172,7 +171,7 @@ export default {
                     //重置次数
                     that.subtime = 0;
                     var exdate = new Date();
-                    exdate.setDate(exdate.getDate() + 30);
+                    exdate.setDate(exdate.getDate() - 30);
                     document.cookie = "ban=false;path=/;expires=" + exdate.toGMTString();
                     clearInterval(this.timer);
                 }
@@ -183,7 +182,7 @@ export default {
     methods: {
         //去除用户名输入框空格
         quchukongge() {
-            this.$data.formData.username = id.replace(/\s*/g, "")
+            this.$data.formData.username = this.$data.formData.username.replace(/\s*/g, "")
         },
         clickasdasdasdasdasasdczxcvrw() {
             this.$data.showtestdialog = false
@@ -207,35 +206,6 @@ export default {
             var loginurl = 'http://10.3.146.103/json/login'
             // var loginurl = 'http://test.ipv4-ran7.top/json/login'
             var skipe = this.skiperror
-            // if (username == "" || password == ""){
-            //     MessagePlugin.error('输完了吗？你就提交。。。', 5000)
-            //     this.$data.disabled = true
-            //     setTimeout(() => {
-            //         MessagePlugin.error('小调皮，按钮给你锁了，哈哈哈哈', 5000)
-            //     }, 1000);
-            //     setTimeout(() => {
-            //         MessagePlugin.error('真无语你这种人。。。', 5000)
-            //         MessagePlugin.error('再见到按钮都给你删了', 5000)
-            //         document.getElementById("button10086").style.display = "none"
-            //     }, 2000);
-            //     setTimeout(() => {
-            //         MessagePlugin.error('框都给你删了', 5000)
-            //         if (username != ""){
-            //             document.getElementById("button10000").style.display = "none"
-            //         }
-            //         if (password != ""){
-            //             document.getElementById("button10046").style.display = "none"
-            //         }
-            //     }, 3000);
-            //     setTimeout(() => {
-            //         MessagePlugin.success('看清楚再按，先给你解了', 5000)
-            //         document.getElementById("button10086").style.display = ""
-            //         document.getElementById("button10046").style.display = ""
-            //         document.getElementById("button10000").style.display = ""
-            //         this.$data.disabled = false
-            //     }, 4000);
-            //     return
-            // }
             if (a.validateResult == true) {
                 const xhr = new XMLHttpRequest()
                 xhr.open('post', loginurl, true)
@@ -288,8 +258,10 @@ export default {
             //查询提交次数
             if (this.subtime == 5 && !skipe) {
                 this.bantime = 120;
-                //show-alert
                 console.log('错误状态')
+                //gettimestamp
+                var timeouttimestamp = this.gettimestamp('s') + 120
+                document.cookie = "LOGINERRORTIMEOUT=" + timeouttimestamp + ";path=/;expires=130"
                 //消息自动更新 ↓
                 var content = () => { return ("您已输入错误超过 5 次，请" + this.bantime + "秒后再重试。") }
                 this.showMessage('error', 0, content)
@@ -309,12 +281,29 @@ export default {
                         //重置次数
                         that.subtime = 0;
                         var exdate = new Date();
-                        exdate.setDate(exdate.getDate() + 30);
+                        exdate.setDate(exdate.getDate() - 30);
                         document.cookie = "ban=false;path=/;expires=" + exdate.toGMTString();
                         clearInterval(this.timer);
                     }
                 }, 1000)
             }
+        },
+
+
+        /**
+        * @gettimestamp
+        * @desc 获取时间戳
+        * @param type 毫秒/秒
+        */
+        gettimestamp(e) {
+            if (e == 's') {
+                //秒
+                return Math.floor(new Date().getTime() / 1000)
+            }
+            else {
+                return new Date().getTime()
+            }
+
         },
 
         /**
