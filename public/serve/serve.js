@@ -13,7 +13,7 @@ var dayofweek = dayjs().day()
 process.on('uncaughtException', function (err) {
     //打印出错误
     console.log(err)
-  });
+});
 
 //variable
 var mysqlzm = {
@@ -48,7 +48,7 @@ app.get('/api/weather', function (req, res) {
             res.end(JSON.stringify(resu.data))
         })
         .catch(err => {
-            res.end(JSON.stringify({ "errcode": -1, "errmsg": "后端请求失败" ,"desc": err.message}));
+            res.end(JSON.stringify({ "errcode": -1, "errmsg": "后端请求失败", "desc": err.message }));
         });
 })
 
@@ -60,9 +60,9 @@ app.get('/api/getinfo/lenddata', function (req, res) {
     // if (req.method == 'POST') {
     try {
         var dashboardconn = mysql.createConnection(mysqlzm);
-        dashboardconn.connect(function(err){
+        dashboardconn.connect(function (err) {
             if (err) {
-                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code ,"desc": err.sqlMessage}));
+                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code, "desc": err.sqlMessage }));
             }
         });
         var sql = 'SELECT * FROM dashboardDATA';
@@ -80,7 +80,7 @@ app.get('/api/getinfo/lenddata', function (req, res) {
                 //处理数据
                 for (let i = 0; i < result.length; i++) {
                     const element = result[i];
-                    
+
                     //lastweek
                     if (thisweekofyear - 1 == element.week) {
                         if (element.day == 0) {
@@ -178,6 +178,11 @@ app.get('/api/getinfo/lenddata', function (req, res) {
                             }
                         }
                     }
+                    else {
+                        var a = { "errcode": -1, "errmsg": "UnFind Data" }
+                        console.log('this week' + thisweekofyear + "data week" + element.week)
+                        res.end(JSON.stringify(a));
+                    }
                     //循环结束
                     if (i == result.length - 1) {
                         for (let index = 1; index < thisweekdata.length; index++) {
@@ -190,8 +195,9 @@ app.get('/api/getinfo/lenddata', function (req, res) {
                             var a = []
                             a.push(lastweekdata)
                             a.push(thisweekdata)
-                            res.end(JSON.stringify(a));
-                        }, 100);
+                            var data = { "errcode": 0, "errmsg": "ok", "data": a }
+                            res.end(JSON.stringify(data));
+                        }, 200);
                     }
                 }
             }
@@ -221,7 +227,7 @@ app.get('/api/getinfo/lenddata', function (req, res) {
 /*type [1,2] [1] [返回结果模式]*/
 app.get('/api/getinfo/recentlist', function (req, res) {
     //默认标头
-    
+
     res.setHeader("Content-Type", "application/json")
     res.setHeader('Access-Control-Allow-Origin', '*')
     //Get Query
@@ -233,9 +239,9 @@ app.get('/api/getinfo/recentlist', function (req, res) {
     // if (req.method == 'POST') {
     try {
         var recentlistconn = mysql.createConnection(mysqlzm);
-        recentlistconn.connect(function(err){
+        recentlistconn.connect(function (err) {
             if (err) {
-                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code ,"desc": err.sqlMessage}));
+                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code, "desc": err.sqlMessage }));
             }
         });
         var sql = 'SELECT * FROM record';
@@ -376,9 +382,9 @@ app.get('/api/getinfo/useractive', function (req, res) {
     // if (req.method == 'POST') {
     try {
         var recentlistconn = mysql.createConnection(mysqlzm);
-        recentlistconn.connect(function(err){
+        recentlistconn.connect(function (err) {
             if (err) {
-                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code ,"desc": err.sqlMessage}));
+                res.end(JSON.stringify({ "errcode": -1, "errmsg": err.code, "desc": err.sqlMessage }));
             }
         });
         var sql = 'SELECT * FROM dashboardDATA2';
@@ -451,7 +457,7 @@ app.get('/api/getinfo/useractive', function (req, res) {
 })
 
 function errorHandler(err, req, res, next) {
-    res.end(JSON.stringify({ "errcode": -1, "errmsg": err.stack}));
+    res.end(JSON.stringify({ "errcode": -1, "errmsg": err.stack }));
 }
 app.use(errorHandler);
 

@@ -7,6 +7,10 @@ import pymysql
 import hashlib
 from pymysql.converters import escape_string
 
+#CHANGELOG
+#23.04.03    
+#    - Fix(JSON_LEND)：找不到设备但是借出成功
+
 # mysql config
 mysql_config = {
     'host': '127.0.0.1',
