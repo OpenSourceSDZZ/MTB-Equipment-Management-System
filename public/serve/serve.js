@@ -178,11 +178,6 @@ app.get('/api/getinfo/lenddata', function (req, res) {
                             }
                         }
                     }
-                    else {
-                        var a = { "errcode": -1, "errmsg": "UnFind Data" }
-                        console.log('this week' + thisweekofyear + "data week" + element.week)
-                        res.end(JSON.stringify(a));
-                    }
                     //循环结束
                     if (i == result.length - 1) {
                         for (let index = 1; index < thisweekdata.length; index++) {

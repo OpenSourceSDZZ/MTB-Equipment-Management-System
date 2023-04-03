@@ -696,7 +696,7 @@ export default {
               MessagePlugin.error('请求出错：' + res.data.errmsg)
             }
             else {
-              var lenddata = res.data
+              var lenddata = res.data.data
               this.$data.lenddata_lastweek = lenddata[0]
               this.$data.lenddata_thisweek = lenddata[1]
               this.echartsInit()

@@ -230,10 +230,10 @@
 
     <!--Update-->
     <div class="randrawerfoot" :class="updatashow ? 'showrandrawer' : ''"></div>
-    <t-drawer v-model:visible="updatashow" :size="800" header="更新日志" :footer="false">
-        <div style="margin-bottom: 10px;letter-spacing: .5px;font: var(--td-font-title-small);">
+    <t-drawer v-model:visible="updatashow" :size="800" header="CHANGELOG" :footer="false">
+        <!-- <div style="margin-bottom: 10px;letter-spacing: .5px;font: var(--td-font-title-small);">
             <span>#括号内容表示当前版本下同时产出的功能</span>
-        </div>
+        </div> -->
         <t-timeline mode="same">
             <!-- <t-timeline-item dot-color="success" :loading="true">
                 <h2>🌈 2.2.0 <t-tag theme="success" variant="light"
@@ -297,8 +297,9 @@
                         <ul>
                             <li>借出/归还后输入框未清空</li>
                             <li>帮借(转借)/帮还失败</li>
-                            <li>超时未退出登录</li>
+                            <li>超时未退出登录 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/12">issue #12</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/13">#22</a>)</li>
                             <li>超时蒙层导致无法使用</li>
+                            <li>找不到设备但仍然借出成功 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)</li>
                         </ul>
                     </li>
                 </ul>
@@ -311,11 +312,10 @@
                 <h3 id="💎-features">💎 Features </h3>
                 <ul style="list-style-type: disc;">
                     <li>
-                        <t-tag size="small" theme="danger" variant="light">设备借出、归还</t-tag>: 功能上线 (<a href="#0020">#0020</a>)
+                        <t-tag size="small" theme="danger" variant="light">设备借出、归还</t-tag>: 功能上线
                     </li>
                     <li>
-                        <t-tag size="small" theme="danger" variant="light">Page/Server</t-tag>: 概览 (<a
-                            href="#0020">#0020</a>/<a href="?type=dashboard">Dashboard</a>)
+                        <t-tag size="small" theme="danger" variant="light">Page/Server</t-tag>: 概览 (<a href="?type=dashboard">Dashboard</a>)
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">API</t-tag>:
@@ -333,19 +333,18 @@
                     <li>
                         <t-tag size="small" theme="danger" variant="light">设备管理</t-tag>:
                         <ul>
-                            <li>鉴权系统(<a href="#0020">#0020</a>)</li>
+                            <li>鉴权系统</li>
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">账户管理</t-tag>:
                         <ul>
-                            <li>鉴权系统 (<a href="#0020">#0020</a>)</li>
+                            <li>鉴权系统</li>
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Index</t-tag>: <t-tag size="small" theme="danger"
                             variant="light">Footer</t-tag>内容更改
-                        (<a href="#0015">#0015</a>)
                     </li>
                 </ul>
                 <h3 id="🐞-bug-fixes">🐞 Bug Fixes </h3>
@@ -353,7 +352,6 @@
                     <!---->
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Theme</t-tag>: 自动与手动冲突
-                        (<a href="#0015">#0015</a>)
                     </li>
                 </ul>
             </t-timeline-item>
@@ -367,12 +365,9 @@
                     <li>
                         <t-tag size="small" theme="danger" variant="light">后台管理</t-tag>:
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">设备管理</t-tag>新增与删除【包括批量删除】 (<a
-                                    href="#9999">#9999</a>)</li>
-                            <li><t-tag size="small" theme="danger" variant="light">用户管理</t-tag>全部功能(<a
-                                    href="#9999">#9999</a>)</li>
-                            <li><t-tag size="small" theme="danger" variant="light">任务管理</t-tag>全部功能(<a
-                                    href="#9999">#9999</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">设备管理</t-tag>新增与删除【包括批量删除】</li>
+                            <li><t-tag size="small" theme="danger" variant="light">用户管理</t-tag>全部功能</li>
+                            <li><t-tag size="small" theme="danger" variant="light">任务管理</t-tag>全部功能</li>
                         </ul>
                     </li>
                 </ul>
@@ -387,15 +382,14 @@
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Menu</t-tag>:
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">选项</t-tag>重载页面按钮(<a
-                                    href="#0015">#0015</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">选项</t-tag>重载页面按钮</li>
 
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Console</t-tag>:
                         <ul>
-                            <li>Console添加样式方便定位与查看 (<a href="#0015">#0015</a>)</li>
+                            <li>Console添加样式方便定位与查看</li>
                         </ul>
                     </li>
                 </ul>
@@ -410,37 +404,35 @@
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Function</t-tag>:
                         <ul>
-                            <li>请求超时提示 (<a href="#0013">#0013</a>)</li>
-                            <li>修改账户密码 (<a href="#0013">#0013</a>)</li>
-                            <li>设备借出与归还 (<a href="#0012">#0012</a>)</li>
+                            <li>请求超时提示
+
+                            </li>
+                            <li>修改账户密码</li>
+                            <li>设备借出与归还</li>
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Console</t-tag>:
                         <ul>
-                            <li>逐步console，方便随时Debug (<a href="#0013">#0013</a>)</li>
+                            <li>逐步console，方便随时Debug</li>
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Timeout</t-tag>:
                         <ul>
-                            <li>60内页面没有<t-tag size="small" theme="danger" variant="light">点击事件</t-tag>自动退出登录 (<a
-                                    href="#0011">#0013</a>)</li>
+                            <li>60内页面没有<t-tag size="small" theme="danger" variant="light">点击事件</t-tag>自动退出登录</li>
                         </ul>
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Menu</t-tag>:
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">Header-Menu</t-tag>: 顶部菜单栏 (<a
-                                    href="#0011">#0011</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">Header-Menu</t-tag>: 顶部菜单栏</li>
                         </ul>
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">Sidebar-Menu</t-tag>: 侧边可以打开的菜单栏 (<a
-                                    href="#0011">#0011</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">Sidebar-Menu</t-tag>: 侧边可以打开的菜单栏</li>
                         </ul>
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">More-Menu</t-tag>: More菜单栏 (<a
-                                    href="#0011">#0011</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">More-Menu</t-tag>: More菜单栏</li>
                         </ul>
                     </li>
                 </ul>
@@ -449,28 +441,24 @@
                     <!---->
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Xhr(Axios)</t-tag>: 请求设置3s超时
-                        (<a href="#0013">#0013</a>)
                     </li>
                     <!---->
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Menu</t-tag>:
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">Header-Menu</t-tag>: 图标错位 (<a
-                                    href="#0011">#0011</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">Header-Menu</t-tag>: 图标错位</li>
                         </ul>
                         <ul>
                             <li><t-tag size="small" theme="danger" variant="light">Sidebar-Menu</t-tag>: 打开菜单栏时页面不会自动收缩
-                                (<a href="#0011">#0011</a>)</li>
+</li>
                         </ul>
                         <ul>
-                            <li><t-tag size="small" theme="danger" variant="light">More-Menu</t-tag>: 错位 (<a
-                                    href="#0011">#0011</a>)</li>
+                            <li><t-tag size="small" theme="danger" variant="light">More-Menu</t-tag>: 错位</li>
                         </ul>
                     </li>
                     <!---->
                     <li>
                         <t-tag size="small" theme="danger" variant="light">Error</t-tag>: 异常报错
-                        (<a href="#0010">#0010</a>)
                     </li>
                     <!---->
                     <li>
@@ -478,30 +466,25 @@
                         <ul>
                             <li>
                                 <t-tag size="small" theme="danger" variant="light">Popup</t-tag>: 弹窗无法关闭以及疯狂弹窗
-                                (<a href="#0009">#0009</a>)
                             </li>
                         </ul>
                         <ul>
                             <li>
                                 <t-tag size="small" theme="danger" variant="light">Style</t-tag>: Body边缘空出一段距离
-                                (<a href="#0008">#0008</a>)
                             </li>
                         </ul>
                         <ul>
                             <li>
                                 <t-tag size="small" theme="danger" variant="light">Login</t-tag>: 登陆后需要刷新页面
-                                (<a href="#0007">#0006</a>)
                             </li>
                         </ul>
                         <ul>
                             <li><t-tag size="small" theme="danger" variant="light">Login</t-tag>: 账户密码正确但是验证失败
-                                (<a href="#0006">#0006</a>)
                             </li>
                         </ul>
                         <ul>
                             <li>
                                 <t-tag size="small" theme="danger" variant="light">Theme</t-tag>: 深色模式颜色异常
-                                (<a href="#0005">#0005</a>)
                             </li>
                         </ul>
                     </li>
