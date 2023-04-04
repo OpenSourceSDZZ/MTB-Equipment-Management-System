@@ -2,32 +2,149 @@
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2023-03-31 13:54:14
  * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2023-03-31 13:59:02
+ * @LastEditTime: 2023-04-04 11:57:27
  * @FilePath: \MTB-Equipment-Management-System\CHANGELOG.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
+
 ---
+
 title: 更新日志
 spline: explain
 toc: false
 docClass: timeline
+
 ---
 
-## 🌈 2.1.6 `2023-03-31` 
-### 🚀 Features
-- `Table`: 
-  - 支持使用 `filterIcon` 支持不同列显示不同的筛选图标，[tdesign-vue#2088](https://github.com/Tencent/tdesign-vue/issues/2088) @chaishi ([#2590](https://github.com/Tencent/tdesign-vue-next/pull/2590))
-  - 支持横向滚动到固定列，[tdesign-vue#1992](https://github.com/Tencent/tdesign-vue/issues/1992) @chaishi ([#2590](https://github.com/Tencent/tdesign-vue-next/pull/2590))
-- `Tabs`: 标签页选项卡可配置禁止拖拽 @liweijie0812 ([#2457](https://github.com/Tencent/tdesign-vue-next/pull/2457))
-- `TimePicker`: 支持`size`属性 @uyarn ([#2597](https://github.com/Tencent/tdesign-vue-next/pull/2597))
-### 🐞 Bug Fixes
-- `Login`: 修复登录页卡错误
+## 🌈 2.1.230322 `2023-03-22`
+### ❗ BREAKING CHANGES
 
-  - 单行选中功能，修复 `allowUncheck: false` 无效问题，[issue#2561](https://github.com/Tencent/tdesign-vue-next/issues/2561) @chaishi ([#2590](https://github.com/Tencent/tdesign-vue-next/pull/2590))
-  - 修复 `lazyload` 重置 `bug` @yanxugong ([#2580](https://github.com/Tencent/tdesign-vue-next/pull/2580))
-  -  修复 `getSortIcon is not a function` 在webpack中的报错 ([issue#2538](https://github.com/Tencent/tdesign-vue-next/issues/2538)) @chaishi ([#2592](https://github.com/Tencent/tdesign-vue-next/pull/2592))
-- `TreeSelect`: 
-  - 修复树选择组件，在表格组件里面时，显示两个 `Tips` 问题 @chaishi ([#2590](https://github.com/Tencent/tdesign-vue-next/pull/2590))
-  - 修复`1.2.0`版本后初始值为空时报错的问题 @uyarn ([#2597](https://github.com/Tencent/tdesign-vue-next/pull/2597))
-- `Dropdown`: 支持`v-for`渲染下拉选项，支持`v-for`与普通插槽混用 @uyarn ([#2594](https://github.com/Tencent/tdesign-vue-next/pull/2594))
-- `Menu`: 修复重新展开后，`normal` 模式的子菜单就是空的。([issue #2557](https://github.com/Tencent/tdesign-vue-next/issues/2557)) @Ericleungs ([#2589](https://github.com/Tencent/tdesign-vue-next/pull/2589))
+- 无操作登出时间延长至 120 秒
+- 大部分输入框都禁止输入空格
+- `Dashboard`:Head头部由切换打开/关闭改为点击（按屏幕尺寸决定是否启用）
+- dashboard接口更新 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)
+
+### 💎 Features
+
+-`数据管理`: 借出数据管理[修改、删除] (未实现)
+- `Guide`: 引导层
+- `Input`: 禁止输入空格
+- `借出、归还`:
+  - 设备code输入框自动focus
+  - 显示借出人与操作人
+
+### 🚀 Update
+
+- 超时弹窗规则更新
+
+### 🐞 Bug Fixes
+
+- `修复已知问题`:
+
+-借出/归还后输入框未清空
+-帮借(转借)/帮还失败
+-超时未退出登录 (<a
+    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/12">issue
+    #12</a>) @Wesley0808(<a
+    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/13">#13</a>)
+
+-超时蒙层导致无法使用
+-找不到设备但仍然借出成功 @Wesley0808(<a
+    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)
+
+
+## 🌈 2.1.0 `2023-03-03`
+
+### 💎 Features
+
+- `设备借出、归还`: 功能上线
+- `Page/Server`: 概览 (<a href="?type=dashboard">Dashboard</a>)
+- `API`:
+ - 设备借出
+ - 设备归还
+ - 设备管理-3个
+ - 账号管理-3个
+ - 仪表盘接口-5个
+
+### 🚀 Update
+
+-`设备管理`:
+- 鉴权系统
+- `账户管理`:
+- 鉴权系统
+- `Index`: 
+ - `Footer`内容更改
+
+
+### 🐞 Bug Fixes
+- `Theme`: 自动与手动冲突
+
+## 🌈 2.0.5 `2023-01-05`
+
+### ❌ Unrealized
+
+- `后台管理`:
+ - `设备管理`新增与删除【包括批量删除】
+ - `用户管理`全部功能
+ - `任务管理`全部功能
+
+
+
+### 💎 Features
+
+- `Theme`: 样式根据时间自动切换
+
+
+### 🚀 Update
+
+- `Menu`:
+-`选项`重载页面按钮
+- `Console`:
+ - Cosole添加样式方便定位与查看
+
+
+## 🌈 2.0.4 `2022-12-17`
+
+### 🚀 Update
+
+- `Function`:
+ -请求超时提示
+ -修改账户密码
+ -设备借出与归还
+- `Console`:
+ -逐步console，方便随时Debug
+- `Timeout`:
+ - 60内页面没有`点击事件`自动退出登录
+- `Menu`:
+ - `Header-Menu`: 顶部菜单栏
+ - `Sidebar-Menu`: 侧边可以打开的菜单栏
+ - `More-Menu`: More菜单栏
+
+### 🐞 Bug Fixes
+
+- `Xhr(Axios)`: 请求设置3s超时
+- `Menu`:
+ - `Header-Menu`: 图标错位
+ - `Sidebar-Menu`: 打开菜单栏时页面不会自动收缩
+ - `More-Menu`: 错位 
+- `Error`: 修复异常报错
+- `Function`:
+ - `Popup`: 弹窗无法关闭以及疯狂弹窗
+ - `Style`: Body边缘空出一段距离
+ - `Login`: 登陆后需要刷新页面
+ - `Login`: 账户密码正确但是验证失败
+ - `Theme`: 深色模式颜色异常
+
+## 🌈 2.0.1 `2022-11-01`
+
+### 💎 Features
+
+    -
+`新版本发布
+
+
+## 🌈 2.0.0 `2022-10-10`
+
+###  id="🚀-features">📌 Webpack
+
+- 构建初始形态【Vue.js/ElementUI/TDesign/npm】

@@ -263,6 +263,7 @@
                         <t-tag size="small" theme="danger" variant="light">Dashboard</t-tag>:
                         Head头部由切换打开/关闭改为点击（按屏幕尺寸决定是否启用）
                     </li>
+                    <li>dashboard接口更新 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)</li>
                 </ul>
                 <h3 id="💎-features">💎 Features </h3>
                 <ul style="list-style-type: disc;">
@@ -297,9 +298,15 @@
                         <ul>
                             <li>借出/归还后输入框未清空</li>
                             <li>帮借(转借)/帮还失败</li>
-                            <li>超时未退出登录 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/12">issue #12</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/13">#22</a>)</li>
+                            <li>超时未退出登录 (<a
+                                    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/12">issue
+                                    #12</a>) @Wesley0808(<a
+                                    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/13">#13</a>)
+                            </li>
                             <li>超时蒙层导致无法使用</li>
-                            <li>找不到设备但仍然借出成功 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)</li>
+                            <li>找不到设备但仍然借出成功 @Wesley0808(<a
+                                    href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -315,7 +322,8 @@
                         <t-tag size="small" theme="danger" variant="light">设备借出、归还</t-tag>: 功能上线
                     </li>
                     <li>
-                        <t-tag size="small" theme="danger" variant="light">Page/Server</t-tag>: 概览 (<a href="?type=dashboard">Dashboard</a>)
+                        <t-tag size="small" theme="danger" variant="light">Page/Server</t-tag>: 概览 (<a
+                            href="?type=dashboard">Dashboard</a>)
                     </li>
                     <li>
                         <t-tag size="small" theme="danger" variant="light">API</t-tag>:
@@ -450,7 +458,7 @@
                         </ul>
                         <ul>
                             <li><t-tag size="small" theme="danger" variant="light">Sidebar-Menu</t-tag>: 打开菜单栏时页面不会自动收缩
-</li>
+                            </li>
                         </ul>
                         <ul>
                             <li><t-tag size="small" theme="danger" variant="light">More-Menu</t-tag>: 错位</li>
@@ -1607,5 +1615,4 @@ a.ran-remove-a-underline:hover {
 
 .ran-dialog-body-textalgin-center--infodialog .t-dialog__body {
     text-align: center;
-}
-</style>
+}</style>
