@@ -11,17 +11,10 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Find Comment
-        uses: peter-evans/find-comment@v1
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
       - name: maintain-comment
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.TOKEN }}
-          comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             <a href="#"><img height="96" alt="完成" src="https://camo.githubusercontent.com/264340ea50dbcb7ad5e3c051330a30c70aca3a23d91526f299ce1b557b154991/687474703a2f2f707265766965772e6769746875622e7765736c657979792e746f702f7072737563636573732e706e67" /></a>
