@@ -2,7 +2,7 @@
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2023-03-31 13:54:14
  * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2023-04-04 12:05:00
+ * @LastEditTime: 2023-04-04 12:21:06
  * @FilePath: \MTB-Equipment-Management-System\CHANGELOG.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -139,8 +139,7 @@ docClass: timeline
 
 ### 💎 Features
 
-      -
-`新版本发布
+- 新版本发布
 
 
 ## 🌈 2.0.0 `2022-10-10`
