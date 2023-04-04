@@ -11,10 +11,11 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - name: maintain-comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: actions-cool/maintain-one-comment@v2.0.0
         with:
           token: ${{ secrets.TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
           body: |
             <a href="#"><img height="96" alt="完成" src="https://camo.githubusercontent.com/264340ea50dbcb7ad5e3c051330a30c70aca3a23d91526f299ce1b557b154991/687474703a2f2f707265766965772e6769746875622e7765736c657979792e746f702f7072737563636573732e706e67" /></a>
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.pull_request.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
