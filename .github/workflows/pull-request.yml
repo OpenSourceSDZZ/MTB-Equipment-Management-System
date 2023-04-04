@@ -16,6 +16,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            good
+            hi
             <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
           body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
