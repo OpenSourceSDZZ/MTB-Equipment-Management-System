@@ -2,7 +2,7 @@
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2023-03-31 13:54:14
  * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2023-04-04 11:57:27
+ * @LastEditTime: 2023-04-04 12:05:00
  * @FilePath: \MTB-Equipment-Management-System\CHANGELOG.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -30,8 +30,8 @@ docClass: timeline
 - `Guide`: 引导层
 - `Input`: 禁止输入空格
 - `借出、归还`:
-  - 设备code输入框自动focus
-  - 显示借出人与操作人
+    - 设备code输入框自动focus
+    - 显示借出人与操作人
 
 ### 🚀 Update
 
@@ -60,11 +60,11 @@ docClass: timeline
 - `设备借出、归还`: 功能上线
 - `Page/Server`: 概览 (<a href="?type=dashboard">Dashboard</a>)
 - `API`:
- - 设备借出
- - 设备归还
- - 设备管理-3个
- - 账号管理-3个
- - 仪表盘接口-5个
+   - 设备借出
+   - 设备归还
+   - 设备管理-3个
+   - 账号管理-3个
+   - 仪表盘接口-5个
 
 ### 🚀 Update
 
@@ -73,7 +73,7 @@ docClass: timeline
 - `账户管理`:
 - 鉴权系统
 - `Index`: 
- - `Footer`内容更改
+   - `Footer`内容更改
 
 
 ### 🐞 Bug Fixes
@@ -84,9 +84,9 @@ docClass: timeline
 ### ❌ Unrealized
 
 - `后台管理`:
- - `设备管理`新增与删除【包括批量删除】
- - `用户管理`全部功能
- - `任务管理`全部功能
+   - `设备管理`新增与删除【包括批量删除】
+   - `用户管理`全部功能
+   - `任务管理`全部功能
 
 
 
@@ -100,7 +100,7 @@ docClass: timeline
 - `Menu`:
 -`选项`重载页面按钮
 - `Console`:
- - Cosole添加样式方便定位与查看
+   - Cosole添加样式方便定位与查看
 
 
 ## 🌈 2.0.4 `2022-12-17`
@@ -108,38 +108,38 @@ docClass: timeline
 ### 🚀 Update
 
 - `Function`:
- -请求超时提示
- -修改账户密码
- -设备借出与归还
+   -请求超时提示
+   -修改账户密码
+   -设备借出与归还
 - `Console`:
- -逐步console，方便随时Debug
+   -逐步console，方便随时Debug
 - `Timeout`:
- - 60内页面没有`点击事件`自动退出登录
+   - 60内页面没有`点击事件`自动退出登录
 - `Menu`:
- - `Header-Menu`: 顶部菜单栏
- - `Sidebar-Menu`: 侧边可以打开的菜单栏
- - `More-Menu`: More菜单栏
+   - `Header-Menu`: 顶部菜单栏
+   - `Sidebar-Menu`: 侧边可以打开的菜单栏
+   - `More-Menu`: More菜单栏
 
 ### 🐞 Bug Fixes
 
 - `Xhr(Axios)`: 请求设置3s超时
 - `Menu`:
- - `Header-Menu`: 图标错位
- - `Sidebar-Menu`: 打开菜单栏时页面不会自动收缩
- - `More-Menu`: 错位 
+   - `Header-Menu`: 图标错位
+   - `Sidebar-Menu`: 打开菜单栏时页面不会自动收缩
+   - `More-Menu`: 错位 
 - `Error`: 修复异常报错
 - `Function`:
- - `Popup`: 弹窗无法关闭以及疯狂弹窗
- - `Style`: Body边缘空出一段距离
- - `Login`: 登陆后需要刷新页面
- - `Login`: 账户密码正确但是验证失败
- - `Theme`: 深色模式颜色异常
+   - `Popup`: 弹窗无法关闭以及疯狂弹窗
+   - `Style`: Body边缘空出一段距离
+   - `Login`: 登陆后需要刷新页面
+   - `Login`: 账户密码正确但是验证失败
+   - `Theme`: 深色模式颜色异常
 
 ## 🌈 2.0.1 `2022-11-01`
 
 ### 💎 Features
 
-    -
+      -
 `新版本发布
 
 
