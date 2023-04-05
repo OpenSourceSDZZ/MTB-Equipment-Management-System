@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: wow-actions/auto-comment@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           issuesOpened: |
             👋 @{{ author }}，感谢给我们提出issue。
              我们将调查后并尽快回复你。
@@ -30,7 +30,7 @@ jobs:
         if: steps.assignees.outputs.isissue == 'true'
         uses: actions-cool/maintain-one-comment@v2.0.0
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ github.token }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认提议可行性。
             确认可行后将下一步计划和可能需要的时间及项目规划回复给  @${{ github.event.issue.user.login }} 。
@@ -57,7 +57,7 @@ jobs:
         if: steps.assignees.outputs.needhard == 'true'
         uses: actions-cool/maintain-one-comment@v2.0.0
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ github.token }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快实现该功能。
             最晚于3周后push develop版本至该仓库，并在PR中标记该issue。
@@ -69,7 +69,7 @@ jobs:
         if: steps.assignees.outputs.notmatchpeople == 'true'
         uses: actions-cool/maintain-one-comment@v2.0.0
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ github.token }}
           body: |
             @${{ github.event.issue.user.login }}  抱歉，我们未能通过您提出的issue进行人员分配，下面由系统为您分配：
             ♥️ 有劳  @wesleyyy0808 , @ddos-ling  尽快确认问题。
