@@ -1,5 +1,5 @@
 name: 反馈新功能
-description: 想要新功能？您可以提出这条issue。
+description: 想要新功能？您可以提出这个提议。
 title: "[issue] 描述问题的标题"
 body:
   - type: markdown

@@ -1,5 +1,5 @@
 name: 反馈前端Bug
-description: 例如：样式错位、无法使用某功能等，您可以发起这条issue。
+description: 例如：样式错位、无法使用某功能等，您可以提出该问题。
 title: "[QD] 描述问题的标题"
 body:
   - type: markdown
