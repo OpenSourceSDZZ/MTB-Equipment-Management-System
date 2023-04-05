@@ -45,7 +45,7 @@ jobs:
           steps.assignees.outputs.notmatchpeople == 'false'
         uses: actions-cool/maintain-one-comment@v2.0.0
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ github.token }}
           body: |
             ♥️ 有劳  ${{ steps.contributors.outputs.string }}  尽快确认问题。
             确认有效后将下一步计划和可能需要的时间回复给  @${{ github.event.issue.user.login }} 。
