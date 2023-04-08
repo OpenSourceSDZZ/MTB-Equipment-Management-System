@@ -11,4 +11,6 @@ jobs:
     steps:
       - uses: Wesleyyy0808/pr-auto-link@main
         with:
+          repository: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
           token: ${{ secrets.TOKEN }}
