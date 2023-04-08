@@ -21,7 +21,7 @@ mysql_config = {
 
 # 维护模式
 maintain_enable = 0
-maintain_reason = "正在进行借出调查，暂不开放"
+maintain_reason = "服务器维护中，请稍后重试"
 
 # 图标
 logo_start = """<div style="display:flex;flex-direction: column-reverse;">"""
@@ -1186,8 +1186,6 @@ def json_equipment_lend():
             status = -3001
             error = "找不到该用户"
             data["lenduser"] = "未知用户"
-            
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             data["lenduser"] = get_user_name(user_code)
 
@@ -1197,8 +1195,6 @@ def json_equipment_lend():
             error = "找不到该设备"
             data["lendcode"] = code
             data["lendname"] = "未知设备"
-
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
         else:
             with pymysql.connect(**mysql_config) as conn2:
                 with conn2.cursor() as cursor2:
@@ -1207,10 +1203,8 @@ def json_equipment_lend():
                     result2 = cursor2.fetchone()
                     data["lendcode"] = result2[1]
                     data["lendname"] = result2[3]
-        #update(json_lend): 阻止的方式
         if status < 0:
             return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-        
         with pymysql.connect(**mysql_config) as conn:
             with conn.cursor() as cursor:
                 sql = 'select * from record where equipment_code = %s and user_code = %s and status = 1'
@@ -1221,6 +1215,8 @@ def json_equipment_lend():
                     log(type=1,event="借出设备",ip=get_ip(flask.request),msg=f"操作无法完成：设备({code})已在用户({user_code})登记过借出",username=username)
                     status = -3004
                     error = "操作失败：该设备已经登记借出！"
+            if status < 0:
+                return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
             sha = hash_256(code+key+str(start_time)+start_date)
             with conn.cursor() as cursor:
                 sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
@@ -1296,12 +1292,12 @@ def json_equipment_return():
             error = "操作失败：权限不足"
         if status < 0:
             return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-
         with pymysql.connect(**mysql_config) as conn:
             with conn.cursor() as cursor:
                 sql = 'select * from record where equipment_code = %s and status = 1'
                 cursor.execute(sql, (escape_string(code)))
                 result = cursor.fetchone()
+                #如果没有数据
                 if not result:
                     log(type=1,event="归还设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：设备({code})已登记过归还",username=username)
                     status = -3008
@@ -1310,17 +1306,30 @@ def json_equipment_return():
                     log(type=1,event="归还设备-JSON",ip=get_ip(flask.request),msg=f"操作无法完成：没有权限为其他用户({user_code})归还设备({code})",username=username)
                     status = -3007
                     error = "操作失败：权限不足"
-            with conn.cursor() as cursor:
-                sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
-                cursor.execute(
-                    sql, (get_time_str(), user_code, escape_string(code)))
-                sql = 'UPDATE equipment SET status = NULL WHERE code = %s'
-                cursor.execute(sql, (escape_string(code)))
-                sql = 'select * from equipment where code = %s'
-                cursor.execute(sql, escape_string(code))
-                result = cursor.fetchone()
-
-        log(type=1,event="归还设备-JSON",ip=get_ip(flask.request),msg=f"设备({code})已在用户({user_code})归还成功",username=username)
+                if status < 0:
+                    return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
+                # 有权限或是借出人归还
+                else:
+                    with conn.cursor() as cursor:
+                        sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
+                        cursor.execute(sql, (get_time_str(), user_code, escape_string(code)))
+                        sql = 'UPDATE equipment SET status = NULL WHERE code = %s'
+                        cursor.execute(sql, (escape_string(code)))
+                        sql = 'select * from equipment where code = %s'
+                        cursor.execute(sql, escape_string(code))
+                        result = cursor.fetchone()
+                        log(type=1,event="归还设备-JSON",ip=get_ip(flask.request),msg=f"设备({code})已在用户({user_code})归还成功",username=username)
+                if result:
+                    with conn.cursor() as cursor:
+                        sql = 'select * from user where code = %s'
+                        cursor.execute(sql, escape_string(result[1]))
+                        result2 = cursor.fetchone()
+                        if not result2:
+                            data["lenduser"] = "未知用户"
+                        else:
+                            data["lenduser"] = result2[4]
+                else:
+                    data["lenduser"] = "未知用户"
     except:
         log(event="RouteError",ip=get_ip(flask.request),url=flask.request.url,msg=traceback.format_exc())
         status = -1

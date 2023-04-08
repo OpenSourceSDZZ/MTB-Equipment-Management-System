@@ -174,8 +174,10 @@
     <t-guide v-model="current" :steps="steps" @change="handleChange" @finish="handleFinish" :onSkip="guide_skip"
         :finishButtonProps="{ content: Math.floor(Math.random() * 2) == 1 ? '我已经知道怎么使用这些功能，且保证正确、规范的使用这些功能！' : '哇嘎哒！！', theme: 'primary' }" />
     <!--音频-->
-    <audio ref="lendmedia" :src="lendm" hidden controls="lend"></audio>
-    <audio ref="returnmedia" :src="returnm" hidden controls="return"></audio>
+    <audio ref="lendsuccessmediaref" :src="lendsuccessm" hidden controls="lends"></audio>
+    <audio ref="returnsuccessmediaref" :src="returnsuccessm" hidden controls="returns"></audio>
+    <audio ref="lendfailmediaref" :src="lendfailm" hidden controls="lendf"></audio>
+    <audio ref="returnfailmediaref" :src="returnfailm" hidden controls="returnf"></audio>
 </template>
 
 <script setup>
@@ -273,6 +275,7 @@ const steps = [
     },
 ];
 
+
 const handlePrevStepClick = ({ e, prev, current, total }) => {
     console.log(e, prev, current, total);
 };
@@ -290,8 +293,10 @@ const theme = ref('normal');
 import { MessagePlugin } from 'tdesign-vue-next';
 import Taskbind from '../Task/bind.vue';
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
-import lendmmmm from '@/assets/media/借出成功.mp3'
-import rettmmmm from '@/assets/media/归还成功.mp3'
+import lendsuccessmedia from '@/assets/media/借出成功.mp3'
+import returnsuccessmedia from '@/assets/media/归还成功.mp3'
+import lendfailmedia from '@/assets/media/借出失败.mp3'
+import returnfailmedia from '@/assets/media/归还失败.mp3'
 
 //
 export default {
@@ -316,8 +321,10 @@ export default {
             // showtaskbind: false,
             // showconfirmdialog: false,
             //media
-            lendm: lendmmmm,
-            returnm: rettmmmm,
+            lendsuccessm: lendsuccessmedia,
+            returnsuccessm: returnsuccessmedia,
+            lendfailm: lendfailmedia,
+            returnfailm: returnfailmedia,
             //thistimelendlist
             thistime_lend_table_topic: [
                 { colKey: 'eqname', title: '设备名称', width: '250' },
@@ -375,14 +382,14 @@ export default {
         var uuname = this.getck("username")
         this.$data.username = uuname
         this.$data.usercode = uucode
-        if (this.getck("need_change_password") == "need") {
-            return
-        }
-        else {
-            setTimeout(() => {
-                this.$data.current = 0
-            }, 1500);
-        }
+        // if (this.getck("need_change_password") == "need") {
+        //     return
+        // }
+        // else {
+        //     setTimeout(() => {
+        //         this.$data.current = 0
+        //     }, 1500);
+        // }
     },
     methods: {
         //引导
@@ -431,8 +438,8 @@ export default {
 
         //输入设备代码，查询
         eqcodeinput(a) {
-            this.$refs.returnmedia.currentTime = 0;
-            this.$refs.returnmedia.play()
+            this.$refs.returnsuccessmedia.currentTime = 0;
+            this.$refs.returnsuccessmedia.play()
         },
 
         changecheckbox(a) {
@@ -652,31 +659,43 @@ export default {
                             if (res.errcode == 0) {
                                 console.log('【借出成功】')
                                 this.showMessage("success", 3000, "借出登记完成")
-                                this.$refs.lendmedia.currentTime = 0;
-                                this.$refs.lendmedia.play()
+                                this.$refs.lendsuccessmediaref.currentTime = 0;
+                                this.$refs.lendsuccessmediaref.play()
                             }
                             else if (res.errcode == -1003) {
                                 console.error('【借出失败：Key失效】')
                                 this.showMessage("error", 5000, "借出失败：登陆失效，请重新登录")
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             else if (res.errcode == -3001) {
                                 console.error('【借出失败：找不到该用户】')
                                 this.showMessage("error", 5000, "借出失败：找不到该用户！")
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             else if (res.errcode == -3002) {
                                 console.error('【借出失败：找不到该设备】')
                                 this.showMessage("error", 5000, "借出失败：找不到该设备！")
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             else if (res.errcode == -3003) {
                                 console.error('【借出失败：用户没有权限为别人借出设备】')
                                 this.showMessage("error", 5000, "借出失败：无权限为别人借出设备！")
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             else if (res.errcode == -3004) {
                                 console.error('【借出失败：该设备已经登记过借出！】')
                                 this.showMessage("error", 5000, "借出失败：该设备已被借出")
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             else {
                                 this.showMessage("error", 5000, "借出失败：" + res.errmsg)
+                                this.$refs.lendfailmediaref.currentTime = 0;
+                                this.$refs.lendfailmediaref.play()
                             }
                             console.groupEnd()
                             var myDate = new Date();
@@ -779,28 +798,38 @@ export default {
                 if (res.errcode == -1003) {
                     console.warn("【归还失败：Key过期】")
                     this.showMessage('error', 5000, '归还失败：登录失效，请重新登录')
+                    this.$refs.returnfailmediaref.currentTime = 0;
+                    this.$refs.returnfailmediaref.play()
                 }
                 else if (res.errcode == -3006) {
                     console.warn("【归还失败：找不到该设备】")
                     this.showMessage('error', 5000, '归还失败：找不到该设备')
+                    this.$refs.returnfailmediaref.currentTime = 0;
+                    this.$refs.returnfailmediaref.play()
                 }
                 else if (res.errcode == -3005) {
                     console.warn("【归还失败：找不到该用户】")
                     this.showMessage('error', 5000, '归还失败：找不到该用户')
+                    this.$refs.returnfailmediaref.currentTime = 0;
+                    this.$refs.returnfailmediaref.play()
                 }
                 else if (res.errcode == -3007) {
                     console.warn("【归还失败：没有权限为别人归还设备】")
                     this.showMessage('error', 5000, '归还失败：你没有权限为别人归还设备')
+                    this.$refs.returnfailmediaref.currentTime = 0;
+                    this.$refs.returnfailmediaref.play()
                 }
                 else if (res.errcode == -3008) {
                     console.warn("【归还失败：该设备已经登记归还】")
                     this.showMessage('warning', 3000, '归还失败：该设备已登记归还')
+                    this.$refs.returnfailmediaref.currentTime = 0;
+                    this.$refs.returnfailmediaref.play()
                 }
                 else if (res.errcode == 0) {
                     console.warn("【归还成功】")
                     this.showMessage('success', 3000, '归还成功')
-                    this.$refs.returnmedia.currentTime = 0;
-                    this.$refs.returnmedia.play()
+                    this.$refs.returnsuccessmediaref.currentTime = 0;
+                    this.$refs.returnsuccessmediaref.play()
                 }
                 console.groupEnd()
                 var myDate = new Date();
