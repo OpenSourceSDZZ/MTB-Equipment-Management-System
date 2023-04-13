@@ -65,14 +65,14 @@ def logo_add(text: str):
 
 # 名字防火墙
 def name_waf(name:str,id):
-    waf_list = ["script","<",">","'",'"',"style"]
-    name_new = ""
-    for i in name.split(" "):
-        name_new += i.lower()
-    for i in waf_list:
-        i = i.lower()
-        if len(name.split(i)) >= 2:
-            return f"< 安全拦截 ID-{id} >"
+    # waf_list = ["script","<",">","'",'"',"style"]
+    # name_new = ""
+    # for i in name.split(" "):
+    #     name_new += i.lower()
+    # for i in waf_list:
+    #     i = i.lower()
+    #     if len(name.split(i)) >= 2:
+    #         return f"< 安全拦截 ID-{id} >"
     return name
 
 # 登陆数据存储
@@ -608,7 +608,7 @@ def login(code, password):
                     # log_add(f"用户登录 user:{code} IP({get_ip(flask.request)})")
                     log(type=1,event="客户端登陆",ip=get_ip(flask.request),url=flask.request.url,username=code)
                     with conn.cursor() as cursor:
-                        sql = "INSERT INTO dashboardDATA2 (name, code, date, week, day, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
+                        sql = "INSERT INTO dailylogindata (name, code, date, week, day, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
                         cursor.execute(sql, (escape_string(result[3]), escape_string(code), escape_string(get_time_str()), get_weekofyear(),get_dayofweek(), get_time()))
                         log(type=1,event="客户端登陆-储存",ip=get_ip(flask.request),msg=traceback.format_exc())
                     return f"{key},{code}"
@@ -690,7 +690,7 @@ def equipment_lending(code, user_code, key):
 
         try:
             with conn.cursor() as cursor:
-                sql = "INSERT INTO dashboardDATA (usercode, eqcode, week, day, date, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
+                sql = "INSERT INTO dailylenddata (usercode, eqcode, week, day, date, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
                 cursor.execute(sql, (escape_string(user_code), escape_string(code), get_weekofyear(), get_dayofweek(), escape_string(get_time_str()), get_time()))
         except:
             log(type=1,event="借出设备-储存",ip=get_ip(flask.request),msg=traceback.format_exc())
@@ -985,7 +985,7 @@ def json_login():
                         data = login_key[key]
                         data["password"] = None
                         with conn.cursor() as cursor:
-                            sql = "INSERT INTO dashboardDATA2 (name, code, date, week, day, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
+                            sql = "INSERT INTO dailylogindata (name, code, date, week, day, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
                             cursor.execute(sql, (escape_string(result[3]), escape_string(code), escape_string(get_time_str()), get_weekofyear(),get_dayofweek(), get_time()))
                             log(type=1,event="JSON登陆-储存",ip=get_ip(flask.request),msg=traceback.format_exc())
                     else:
@@ -1203,37 +1203,42 @@ def json_equipment_lend():
                     result2 = cursor2.fetchone()
                     data["lendcode"] = result2[1]
                     data["lendname"] = result2[3]
-        if status < 0:
-            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-        with pymysql.connect(**mysql_config) as conn:
-            with conn.cursor() as cursor:
-                sql = 'select * from record where equipment_code = %s and user_code = %s and status = 1'
-                cursor.execute(sql, (escape_string(code),
-                            escape_string(user_code)))
-                result = cursor.fetchone()
-                if result:
-                    log(type=1,event="借出设备",ip=get_ip(flask.request),msg=f"操作无法完成：设备({code})已在用户({user_code})登记过借出",username=username)
-                    status = -3004
-                    error = "操作失败：该设备已经登记借出！"
-            if status < 0:
-                return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-            sha = hash_256(code+key+str(start_time)+start_date)
-            with conn.cursor() as cursor:
-                sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
-                cursor.execute(
-                    sql, (get_time_str(), user_code, escape_string(code)))
-                sql = 'INSERT INTO record (user_code, equipment_code, date, status, sha) VALUES (%s, %s, %s, %s, %s)'
-                cursor.execute(sql, (escape_string(user_code), escape_string(
-                    code), escape_string(get_time_str()), 1, sha))
-                sql = 'UPDATE equipment SET status = %s WHERE code = %s'
-                cursor.execute(sql, (sha, escape_string(code)))
-            try:
+        if status == 0:
+            if login_key[key]["username"] != user_code:
+                error = "以他人身份借出"
+            with pymysql.connect(**mysql_config) as conn:
                 with conn.cursor() as cursor:
-                    sql = "INSERT INTO dashboardDATA (usercode, eqcode, week, day, date, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
-                    cursor.execute(sql, (escape_string(user_code), escape_string(code), get_weekofyear(), get_dayofweek(), escape_string(get_time_str()), get_time()))
-            except:
-                log(type=1,event="借出设备-储存",ip=get_ip(flask.request),msg=traceback.format_exc())
-        log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"设备({code})已在用户({user_code})借出成功",username=username)
+                    sql = 'select * from record where equipment_code = %s and user_code = %s and status = 1'
+                    cursor.execute(sql, (escape_string(code),
+                                escape_string(user_code)))
+                    result = cursor.fetchone()
+                    if result:
+                        log(type=1,event="借出设备",ip=get_ip(flask.request),msg=f"操作无法完成：设备({code})已在用户({user_code})登记过借出",username=username)
+                        status = -3004
+                        error = "操作失败：该设备已经登记借出！"
+
+                if status < 0:
+                    return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
+                
+                sha = hash_256(code+key+str(start_time)+start_date)
+                with conn.cursor() as cursor:
+                    sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
+                    cursor.execute(
+                        sql, (get_time_str(), user_code, escape_string(code)))
+                    sql = 'INSERT INTO record (user_code, equipment_code, date, status, sha) VALUES (%s, %s, %s, %s, %s)'
+                    cursor.execute(sql, (escape_string(user_code), escape_string(
+                        code), escape_string(get_time_str()), 1, sha))
+                    sql = 'UPDATE equipment SET status = %s WHERE code = %s'
+                    cursor.execute(sql, (sha, escape_string(code)))
+                try:
+                    with conn.cursor() as cursor:
+                        sql = "INSERT INTO dailylenddata (usercode, eqcode, week, day, date, timestramp) VALUES (%s, %s, %s, %s, %s, %s)"
+                        cursor.execute(sql, (escape_string(user_code), escape_string(code), get_weekofyear(), get_dayofweek(), escape_string(get_time_str()), get_time()))
+                except:
+                    log(type=1,event="借出设备-储存",ip=get_ip(flask.request),msg=traceback.format_exc())
+            log(type=1,event="借出设备-JSON",ip=get_ip(flask.request),msg=f"设备({code})已在用户({user_code})借出成功",username=username)
+        else:
+            return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
     except:
         log(event="RouteError",ip=get_ip(flask.request),url=flask.request.url,msg=traceback.format_exc())
         status = -1
@@ -1308,7 +1313,9 @@ def json_equipment_return():
                     error = "操作失败：权限不足"
                 if status < 0:
                     return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-                # 有权限或是借出人归还
+                if login_key[key]["username"] != user_code:
+                    error = "以他人身份归还"
+                # 有权限帮还或是借出人归还
                 else:
                     with conn.cursor() as cursor:
                         sql = 'UPDATE record SET status = 0,return_date = %s,return_user_code = %s WHERE equipment_code = %s and status = 1'
@@ -1764,8 +1771,35 @@ def json_record_list():
         status = -1
         error = "未知的错误"
     return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
-
 # 新接口区结束
+
+# 任务管理列表 不验证keyMethod为get
+@app.route('/task/list')
+def json_task_list():
+    log(type=2,ip=get_ip(flask.request),url=flask.request.url,event=request.method)
+    status = 0
+    error = "ok"
+    return_code = 200
+    data = {}
+    try:
+        with pymysql.connect(**mysql_config) as conn:
+            with conn.cursor() as cursor:
+                sql = 'select * from task'
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                data["len"] = len(result)
+                no = 0
+                for i in result:
+                    # data[no] = f"{status},编号:{result[0]} 设备Code:{result[2]} 使用人Code:{result[1]} 借出日期:{result[5]} 归还日期:{result[7]}"
+                    data[str(no)] = {"id":i[0],"eq_code":i[1],"ascription":i[2],"name":i[3],"model":i[4],"sn":i[5],"type":i[6],"record_sha":i[7]}
+                    no += 1
+                log(type=1,event="获取数据-json_equipment_list",ip=get_ip(flask.request),url=flask.request.url,username=username)
+    except:
+        log(event="RouteError",ip=get_ip(flask.request),url=flask.request.url,msg=traceback.format_exc())
+        status = -1
+        error = "未知的错误"
+    return flask.jsonify(errcode=status,errmsg=error,data=data),return_code
+
 
 # 运行
 if __name__ == '__main__':

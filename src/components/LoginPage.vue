@@ -4,16 +4,14 @@
 <!-- <div style="width: 600px;position: fixed;left: 0;right: 0;margin: 0 auto;margin-top: 40px;">
         <el-alert show-icon='true' type="error" :title="alert_title" :description="alert_desc" v-show="alert_show">
         </el-alert>
-                        </div> -->
+                            </div> -->
     <div id="bubble" class="bubble" :style="{ height: windowHeight + 'px', width: windowWidth + 'px' }"
         style="max-width:100%;"></div>
     <div>
         <div class="login" :style="{ height: windowHeight - 56 + 'px', width: windowWidth + 'px' }" style="max-width:100%;">
             <div class="login-box">
                 <div class="head">
-                    <div
-                        style="font-weight: bold;color: rgb(255 255 255);letter-spacing: 3px;text-transform: uppercase;font-family: Montserrat;font-size: 60px;position: absolute;left: 0;right: 0;margin: 0 auto;width: 212px;padding-top: 45px;">
-                        Login</div>
+                    <div class="loginbox_title">设备管理系统-Login</div>
                     <!-- <img :src="lh" alt="" /> -->
                 </div>
                 <div class="form">
@@ -21,15 +19,6 @@
                         <!--from start-->
                         <t-form ref="form" :rules="rules" :data="formData" :colon="true" :label-width="0"
                             :onSubmit="onSubmit">
-
-                        <!-- <t-form-item name="jiqima">
-                                <t-input v-model="formData.username" clearable placeholder="登陆机器码">
-                                    <template #prefix-icon>
-                                        <desktop-icon />
-                                    </template>
-                                </t-input>
-                                                </t-form-item> -->
-
                             <t-form-item name="username">
                                 <t-input id="button10000" v-model="formData.username" clearable placeholder="请输入账户名"
                                     ref="fromusername" :onEnter="formusernameenter" :onChange="quchukongge()">
@@ -120,7 +109,7 @@ export default {
             timer: null,
             skiperror: false,
 
-            showtestdialog: true,
+            showtestdialog: false,
         }
 
     },
@@ -426,6 +415,21 @@ a:hover {
     justify-content: center;
 }
 
+.loginbox_title {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: Montserrat;
+    font-size: 60px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: 0px auto;
+    width: fit-content;
+    padding-top: 0px;
+}
+
 .login-box {
     overflow: hidden;
     width: 430px;
@@ -476,4 +480,5 @@ img {
     margin-top: 15px;
     --el-button-bg-color: var(--el-color-primary);
 }
+
 </style>
