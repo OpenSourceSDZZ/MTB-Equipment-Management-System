@@ -192,88 +192,97 @@ const steps = [
     {
         element: '.guide_more',
         title: '新手引导',
-        body: '这是更多，点击它会弹出更多选项',
+        body: '点开这里退出登录',
         placement: 'bottom-right',
     },
-    {
-        element: '.changepws',
-        title: '新手引导',
-        body: '点击这里可以修改密码',
-        placement: 'right',
-    },
-    {
-        element: '.moreinfo',
-        title: '新手引导',
-        body: '点击这里显示更多信息',
-        placement: 'right',
-    },
-    {
-        element: '.clogout',
-        title: '新手引导',
-        body: '点击这里退出登录',
-        placement: 'right',
-    },
-    {
-        element: '.guide_refresh',
-        title: '新手引导',
-        body: '这里是刷新按钮，点击它将会刷新整个页面',
-        placement: 'bottom-right',
-    },
-    {
-        element: '.guide_darktoggle',
-        title: '新手引导',
-        body: '这里可以在浅色和深色模式中切换',
-        placement: 'bottom-right',
-    },
-    {
-        element: '.lendtap',
-        title: '新手引导',
-        body: '点击这里显示借出界面',
-        placement: 'bottom-left',
-    },
-    {
-        element: '.returntap',
-        title: '新手引导',
-        body: '点击这里显示归还界面',
-        placement: 'bottom-left',
-    },
-    {
-        element: '.helpotheruserlend_big',
-        title: '新手引导',
-        body: '这里是帮借区域',
-        placement: 'top',
-    },
-    {
-        element: '.helpotheruserlend_box',
-        title: '新手引导',
-        body: '需要帮姐首先要这里打开选项开关',
-        placement: 'top-left',
-    },
-    {
-        element: '.helpotheruserlend_input',
-        title: '新手引导',
-        body: '然后在这里填写使用人的code',
-        placement: 'top',
-    },
-    {
-        element: '.lendinput',
-        title: '新手引导',
-        body: '要借出的设备code填这里',
-        placement: 'top',
-    },
-    {
-        element: '.lendbutton',
-        title: '新手引导',
-        body: '然后点击这里借出',
-        placement: 'top-left',
-    },
-    {
-        element: '.returnview',
-        title: '新手引导',
-        body: '归还也是大同小异',
-        placement: 'left',
-    },
-];
+]
+
+// const steps = [
+//     {
+//         element: '.guide_more',
+//         title: '新手引导',
+//         body: '这是更多，点击它会弹出更多选项',
+//         placement: 'bottom-right',
+//     },
+//     {
+//         element: '.changepws',
+//         title: '新手引导',
+//         body: '点击这里可以修改密码',
+//         placement: 'right',
+//     },
+//     {
+//         element: '.moreinfo',
+//         title: '新手引导',
+//         body: '点击这里显示更多信息',
+//         placement: 'right',
+//     },
+//     {
+//         element: '.clogout',
+//         title: '新手引导',
+//         body: '点击这里退出登录',
+//         placement: 'right',
+//     },
+//     {
+//         element: '.guide_refresh',
+//         title: '新手引导',
+//         body: '这里是刷新按钮，点击它将会刷新整个页面',
+//         placement: 'bottom-right',
+//     },
+//     {
+//         element: '.guide_darktoggle',
+//         title: '新手引导',
+//         body: '这里可以在浅色和深色模式中切换',
+//         placement: 'bottom-right',
+//     },
+//     {
+//         element: '.lendtap',
+//         title: '新手引导',
+//         body: '点击这里显示借出界面',
+//         placement: 'bottom-left',
+//     },
+//     {
+//         element: '.returntap',
+//         title: '新手引导',
+//         body: '点击这里显示归还界面',
+//         placement: 'bottom-left',
+//     },
+//     {
+//         element: '.helpotheruserlend_big',
+//         title: '新手引导',
+//         body: '这里是帮借区域',
+//         placement: 'top',
+//     },
+//     {
+//         element: '.helpotheruserlend_box',
+//         title: '新手引导',
+//         body: '需要帮姐首先要这里打开选项开关',
+//         placement: 'top-left',
+//     },
+//     {
+//         element: '.helpotheruserlend_input',
+//         title: '新手引导',
+//         body: '然后在这里填写使用人的code',
+//         placement: 'top',
+//     },
+//     {
+//         element: '.lendinput',
+//         title: '新手引导',
+//         body: '要借出的设备code填这里',
+//         placement: 'top',
+//     },
+//     {
+//         element: '.lendbutton',
+//         title: '新手引导',
+//         body: '然后点击这里借出',
+//         placement: 'top-left',
+//     },
+//     {
+//         element: '.returnview',
+//         title: '新手引导',
+//         body: '归还也是大同小异',
+//         placement: 'left',
+//     },
+// ];
 
 
 const handlePrevStepClick = ({ e, prev, current, total }) => {
@@ -382,14 +391,14 @@ export default {
         var uuname = this.getck("username")
         this.$data.username = uuname
         this.$data.usercode = uucode
-        // if (this.getck("need_change_password") == "need") {
-        //     return
-        // }
-        // else {
-        //     setTimeout(() => {
-        //         this.$data.current = 0
-        //     }, 1500);
-        // }
+        if (this.getck("need_change_password") == "need") {
+            return
+        }
+        else {
+            setTimeout(() => {
+                this.$data.current = 0
+            }, 1500);
+        }
     },
     methods: {
         //引导

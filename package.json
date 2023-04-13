@@ -18,6 +18,7 @@
     "dayjs": "^1.11.7",
     "echarts": "^5.4.1",
     "express": "^4.18.2",
+    "fake-progress": "^1.0.4",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "ionicons": "^6.0.4",

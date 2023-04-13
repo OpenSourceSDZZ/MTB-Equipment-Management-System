@@ -54,13 +54,14 @@
             </template>
             仪表板
         </t-menu-item>
-        <!-- <t-menu-item value="l6" v-show="!loginpage_show"> -->
-        <!-- @click="MessagePlugin.info({ content: '还没有开发这个功能', duration: 3000 })" -->
-        <!-- <template #icon>
-                <ion-icon name="today-outline" style="width: 20px;height: 20px;margin-right: 8px;"></ion-icon>
-            </template>
-            任务发布
-        </t-menu-item> -->
+        <a target="_blank" href="./task.html" style="text-decoration: none;">
+            <t-menu-item value="l6">
+                <template #icon>
+                    <ion-icon name="today-outline" style="width: 20px;height: 20px;margin-right: 8px;"></ion-icon>
+                </template>
+                任务面板与管理
+            </t-menu-item>
+        </a>
         <a href="http://10.3.146.100" target="_blank" style="text-decoration: none;">
             <t-menu-item value="l3">
                 <template #icon>
@@ -263,7 +264,10 @@
                         <t-tag size="small" theme="danger" variant="light">Dashboard</t-tag>:
                         Head头部由切换打开/关闭改为点击（按屏幕尺寸决定是否启用）
                     </li>
-                    <li>dashboard接口更新 (<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>) @Wesley0808(<a href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)</li>
+                    <li>dashboard接口更新 (<a
+                            href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/issue/2">issue #2</a>)
+                        @Wesley0808(<a
+                            href="https://github.com/OpenSourceSDZZ/MTB-Equipment-Management-System/pull/22">#22</a>)</li>
                 </ul>
                 <h3 id="💎-features">💎 Features </h3>
                 <ul style="list-style-type: disc;">
@@ -633,7 +637,7 @@ export default {
     },
     data() {
         return {
-            version: '2.1.6 RC',
+            version: '2.1.8 RC',
             loginpage_show: true,
             userpage_show: false,
             timer: null,
@@ -1028,14 +1032,14 @@ export default {
                 this.$data.lastchoose = 'l2'
                 this.$data.header_title = '顺德中专团委学生会媒体部 设备借出/归还系统'
             }
-            else if (a == 'l6') {
-                this.$data.showlend = false
-                this.$data.showissue = true
-                this.$data.showdashboard = false
-                this.$data.mini_menu_choose = 'l6'
-                this.$data.lastchoose = 'l6'
-                this.$data.header_title = '顺德中专团委学生会媒体部 任务发布'
-            }
+            // else if (a == 'l6') {
+            //     this.$data.showlend = false
+            //     this.$data.showissue = true
+            //     this.$data.showdashboard = false
+            //     this.$data.mini_menu_choose = 'l6'
+            //     this.$data.lastchoose = 'l6'
+            //     this.$data.header_title = '顺德中专团委学生会媒体部 任务发布'
+            // }
             else {
                 //其他选项还原为上次选择的
                 if (this.lastchoose == 'l6') {
@@ -1408,6 +1412,16 @@ body {
     height: 30px !important;
 } */
 
+
+.t-menu--dark .t-menu__operations-icon:hover {
+    background-color: var(--td-bg-color-container-hover) !important;
+}
+
+.t-menu--dark .t-menu__operations-icon {
+    color: var(--td-text-color-primary) !important;
+}
+
+
 .son_menu {
     z-index: 1 !important;
     position: fixed !important;
@@ -1615,4 +1629,5 @@ a.ran-remove-a-underline:hover {
 
 .ran-dialog-body-textalgin-center--infodialog .t-dialog__body {
     text-align: center;
-}</style>
+}
+</style>
